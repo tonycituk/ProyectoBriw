@@ -230,6 +230,7 @@ RETURNS:
 ***********************************************************************/
 function get_base_domain_address($page_base)
 	{
+	$domain_base = "";
 	for ($pointer=8; $pointer<strlen($page_base); $pointer++)
 		{
 		if (substr($page_base, $pointer, 1)=="/")
@@ -244,8 +245,7 @@ function get_base_domain_address($page_base)
 		$page_base = substr($page_base, 0, strlen($page_base)-1);
 
 	return $domain_base;
-	}
-
+}
 
 /***********************************************************************
 move_address_back_one_level($page_base, $object_source)                 

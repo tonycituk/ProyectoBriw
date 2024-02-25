@@ -240,8 +240,7 @@ function lenguaje($contenido){
 // Uso del WebCrawler
 // URLs de inicio
 $startUrls = [
-    'https://cnnespanol.cnn.com/',
-
+    'https://www.matematicas.uady.mx/libraries'
 ];
 $maxDepth = 2;
 

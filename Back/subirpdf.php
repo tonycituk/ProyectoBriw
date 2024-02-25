@@ -33,7 +33,7 @@ if(!(isset($_FILES["archivos"]) && !empty($_FILES["archivos"]["name"][0]))){
   return;
 }
 
-$server = 'localhost/briw3/back/';
+$server = 'localhost/briw/back/';
 $directorio = 'archivos/';
 $archivos = guardarArchivos($directorio);
 
