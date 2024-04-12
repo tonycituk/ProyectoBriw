@@ -15,3 +15,5 @@ cd Front
 npm install
 npm run dev
 ~~~
+
+Luego, cuando se termine el proyecto vamos a compilarlo y pasarlo al xampp
