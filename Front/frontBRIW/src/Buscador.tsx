@@ -6,8 +6,11 @@ import React from 'react';
 import Sugerencias from './Sugerencias';
 
 
+interface Propiedades {
+  onEnter : (busqueda: string) =>void
+}
 
-function Buscador(){
+function Buscador({onEnter}: Propiedades){
     const [inputValue, setInputValue] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [selectedList, setSelectedList] = useState(0);
@@ -21,7 +24,7 @@ function Buscador(){
       })
     };
 
-    
+    //Para moverse entre las opciones sugerias
     const handleKeySpecial = (event: React.KeyboardEvent<HTMLInputElement>) => {
       const tecla = event.key
       switch(tecla){
@@ -45,6 +48,11 @@ function Buscador(){
           break;
         case "Backspace" :
           setSelectedList(-1);
+          break;
+        case "Enter":
+          setSuggestions([]);
+          onEnter(inputValue)
+          break;
       }
     };
   
