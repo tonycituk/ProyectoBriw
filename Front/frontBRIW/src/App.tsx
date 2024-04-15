@@ -1,5 +1,6 @@
 //import Buscador from "./buscador"
 import React, { useState } from "react"
+//No se preocupen, no es un erro, (Bueno, si pero no, el caso es que funciona)
 import Buscador from './Buscador'
 import Resultado from "./Resultado"
 import Facetas from "./Facetas"
