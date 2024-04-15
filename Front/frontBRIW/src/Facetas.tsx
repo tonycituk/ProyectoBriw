@@ -1,19 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 
 interface Propiedades {
     facetas : string[];
     onSelectFaceta : (faceta: string) =>void
 }
 function Facetas({facetas, onSelectFaceta}: Propiedades){
+    const [selectedList, setSelectedList] = useState(-1);
+  
+
     return(
-    <div className="w-1/6 px-12 h-screen py-12 sticky">
-    <ul className="menu bg-base-200 rounded-box w-28">
+    <div className="w-1/6 px-12 h-screen py-12">
+    <ul className="menu bg-base-200 rounded-box w-56 sticky top-20">
         {facetas.map((faceta, index) => (
-        <li
+        <li 
             key={index}
-            onClick={() => {onSelectFaceta(faceta)}}
+            onClick={() => { 
+                setSelectedList(index)
+                onSelectFaceta(faceta)}
+            }
         >
-            <a>{faceta}</a>
+            <a className={index == selectedList ? "bg-secondary-content m-1": " m-1"}>{faceta}</a>
         </li>
     ))}
     </ul>

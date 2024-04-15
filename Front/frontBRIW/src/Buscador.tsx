@@ -59,7 +59,7 @@ function Buscador(){
 
     return (
       //Icono de lupa
-      <div className="sticky m-12 w-full" onClick={(event)=>{setSuggestions([])}}>
+      <div className="sticky m-12 w-full top-20" onClick={(event)=>{setSuggestions([])}}>
         <label className="absolute inset-y-0 left-1 pl-3 flex items-center pointer-events-none">
           <SearchIcon />
         </label>
@@ -87,7 +87,7 @@ function Buscador(){
 
 async function obtenerSugerencias(palabra) {
     try {
-      const response = await fetch(`https://inputtools.google.com/request?text=${palabra}&itc=es-t-i0-und&num=5`);
+      const response = await fetch(`https://inputtools.google.com/request?text=${palabra}&itc=es-t-i0-und&num=12`);
       const data = await response.json();
       const sugerencias = data?.[1]?.[0]?.[1] || [];
       return sugerencias;

@@ -7,7 +7,7 @@ import Facetas from "./Facetas"
 function App() {
 
  return(<>
-  <div className="navbar bg-neutral text-primary-conten">
+  <div className="navbar bg-neutral text-primary-conten sticky top-0">
     <button className="btn btn-ghost text-xl">BRIW</button>
   </div>
   <div className="flex justify-center items-center h-screen">
@@ -43,8 +43,8 @@ function App() {
         logo={"./pat.svg"} 
         url={"http://localhost/briw"}
       />
+      <div className=" h-screen"></div>
       </div>
-      {/* Puedes agregar más resultados aquí */}
     </div>
   </div>
 </>)
