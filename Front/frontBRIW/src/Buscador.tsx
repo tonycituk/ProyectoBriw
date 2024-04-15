@@ -51,6 +51,7 @@ function Buscador({onEnter}: Propiedades){
           break;
         case "Enter":
           setSuggestions([]);
+          //Cuando das enter, lanza un evento que puedes agarrar en donde está el valor de la consulta
           onEnter(inputValue)
           break;
       }
