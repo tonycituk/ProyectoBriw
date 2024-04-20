@@ -78,10 +78,17 @@ function App() {
           
         }
         setResultados(actual);
-        for (let i = 0; i < 12; i = i+2) {
-          console.log (data.categories[i]);
-          if(!(data.categories[i] =='')){
-            actualFacet.push(data.categories[i]);
+        for (let i = 1; i < 18; i++) {
+          //console.log (data.categories[i]);
+          if(data.categories){
+            if(!(data.categories[i] =='')){
+              if(data.categories[i].length > 2){
+                const value = parseInt(data.categories[i]);
+                if (isNaN(value)) {
+                  actualFacet.push(data.categories[i+1] + " " + data.categories[i]);
+                }
+              }
+            }
           }
           
         }
@@ -93,8 +100,9 @@ function App() {
   }
 
   const handlerFaceta = (faceta: string)=>{
-    //lastQuery
-    fetchDataFromPHPWithFaceta(lastQuery, faceta).then(
+    let parts = faceta.split(' '); 
+    let f = parts[1]
+    fetchDataFromPHPWithFaceta(lastQuery, f).then(
       data=>{
         const actual: Resultado[] = [];
       const actualFacet: string[] = [];
@@ -111,7 +119,6 @@ function App() {
         
       }
       setResultados(actual);
-      setLastQuery(lastQuery);
       }
     )
   }

@@ -1,13 +1,15 @@
 <?php
 
-
+//"facet.field" => 'title',
+//"facet.contains" => $_GET['q'],
 // Imprimir los estilos CSS dentro de la etiqueta <style>
-header("Access-Control-Allow-Origin: *");
-header('Content-Type: application/json; charset=utf-8');
+ header("Access-Control-Allow-Origin: *");
+        header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $query = $_GET['q'] ?? '';
     $faceta = $_GET['f'] ?? '';
+    $f = $_GET['f'] ?? '';
     if (!empty($query)) {
         $baseurl = "http://localhost:8983/solr/ProyectoFinal/select";
         $rows = 30;
@@ -17,7 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
         $mensaje = [
             "defType" => "lucene",
-            "facet.field" => 'keywords_s',
+            "facet.field" => 'title',
+            "facet.contains" => $f,
+            "facet.contains.ignoreCase"=>'true',
+            "fq"=>"title:*$f*",
             'facet.sort' => 'count',
             'facet' => 'true',
             'indent' => 'true',
@@ -30,9 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             'useParams' => ''
         ];
         $resultado = apiMensaje($baseurl, $mensaje);
-
+        //echo json_encode($resultado);
         // Obtener las URLs de las páginas
-        $facets = $resultado["facet_counts"]["facet_fields"]['keywords_s'];
+        $facets = $resultado["facet_counts"]["facet_fields"]['title'];
         //$resultado = $resultado["response"]['docs'];
         $urls = [];
         foreach ($resultado["response"]['docs'] as $pagina) {
@@ -85,7 +90,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
 
         // Agregar las facetas al resultado final
-        $json_results["categories"] = $facets;
+        if(!$index == 0){
+            $json_results["categories"] = $facets;
+        }else{
+            $json_results["categories"]  = null;
+        }
 
         // Convertir el array de resultados en JSON y enviar como respuesta
        

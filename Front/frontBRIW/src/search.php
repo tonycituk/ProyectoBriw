@@ -16,7 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
         $mensaje = [
             "defType" => "lucene",
-            "facet.field" => 'keywords_s',
+            "facet.field" => 'title',
+            "facet.contains" => $faceta,
             'facet.sort' => 'count',
             'facet' => 'true',
             'indent' => 'true',
