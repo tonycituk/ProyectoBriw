@@ -2,8 +2,7 @@
 
 
 // Imprimir los estilos CSS dentro de la etiqueta <style>
-header("Access-Control-Allow-Origin: *");
-header('Content-Type: application/json; charset=utf-8');
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $query = $_GET['q'] ?? '';
@@ -88,7 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $json_results["categories"] = $facets;
 
         // Convertir el array de resultados en JSON y enviar como respuesta
-       
+        header("Access-Control-Allow-Origin: *");
+        header('Content-Type: application/json; charset=utf-8');
         echo json_encode($json_results);
         exit();
     }
