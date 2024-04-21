@@ -1,32 +1,30 @@
 //import Buscador from "./buscador"
-import React, { useState , useEffect} from "react"
+import React, { useState, useEffect } from "react";
 //No se preocupen, no es un erro, (Bueno, si pero no, el caso es que funciona)
-import Buscador from './Buscador'
-import Resultado from "./Resultado"
-import Facetas from "./Facetas"
-
+import Buscador from "./Buscador";
+import Resultado from "./Resultado";
+import Facetas from "./Facetas";
 
 interface Resultado {
   titulo: string;
   snippet: string;
   logo: string;
-  url: string
-  id : number;
+  url: string;
+  id: number;
 }
 
 const params = new URLSearchParams({
-  q: 'méxico',
-  f: '',
+  q: "méxico",
+  f: "",
 });
 
-
 function App() {
-  const initRes: Resultado[] = []
+  const initRes: Resultado[] = [];
   const [resultados, setResultados] = useState(initRes);
   const [facetas, setFacetas] = useState([""]);
   const [lastQuery, setLastQuery] = useState("");
-  const baseUrl = window.location.origin; 
-  const endpoint = '/ProyectoBRIW/Back/search.php';
+  const baseUrl = window.location.origin;
+  const endpoint = "/ProyectoBRIW/Back/search.php";
 
   const handleOnEnter = async (busqueda: string) => {
     try {
@@ -36,18 +34,20 @@ function App() {
       const actualFacet: string[] = [];
 
       // Procesar datos de la búsqueda
-      data.result.forEach(resultado => {
+      data.result.forEach((resultado) => {
         console.log(resultado);
         actual.push({
           logo: resultado.icon_url,
           titulo: resultado.value,
           snippet: resultado.id,
           url: resultado.url,
-          id : resultado.index
+          id: resultado.index,
         });
 
-        if(resultado.categories.length > 0){
-          (actualFacet.indexOf(resultado.categories[0]) == -1)? actualFacet.push(resultado.categories[0]) : false
+        if (resultado.categories.length > 0) {
+          actualFacet.indexOf(resultado.categories[0]) == -1
+            ? actualFacet.push(resultado.categories[0])
+            : false;
         }
       });
 
@@ -56,130 +56,121 @@ function App() {
       setResultados(actual);
       setLastQuery(busqueda);
     } catch (error) {
-      console.error('Error al obtener consulta:', error);
+      console.error("Error al obtener consulta:", error);
     }
   };
-  const handleOnEnter1 = (busqueda: string)=>{
-    if(!(busqueda=='')){
-      fetchDataFromPHP(busqueda).then(
-        data=>{
-          const actual: Resultado[] = [];
+  const handleOnEnter1 = (busqueda: string) => {
+    if (!(busqueda == "")) {
+      fetchDataFromPHP(busqueda).then((data) => {
+        const actual: Resultado[] = [];
         const actualFacet: string[] = [];
         console.log(data);
-        for(const resultado of data.results){
-          
+        for (const resultado of data.results) {
           actual.push({
             logo: resultado.icon_url,
             titulo: resultado.value,
             snippet: resultado.id,
             url: resultado.url,
-            id : resultado.index
-          })
-          
+            id: resultado.index,
+          });
         }
         setResultados(actual);
-        for (let i = 0; i < 12; i = i+2) {
-          console.log (data.categories[i]);
-          if(!(data.categories[i] =='')){
+        for (let i = 0; i < 12; i = i + 2) {
+          console.log(data.categories[i]);
+          if (!(data.categories[i] == "")) {
             actualFacet.push(data.categories[i]);
           }
-          
         }
         setFacetas(actualFacet);
         setLastQuery(busqueda);
-        }
-      )
+      });
     }
-  }
+  };
 
-  const handlerFaceta = (faceta: string)=>{
+  const handlerFaceta = (faceta: string) => {
     //lastQuery
-    fetchDataFromPHPWithFaceta(lastQuery, faceta).then(
-      data=>{
-        const actual: Resultado[] = [];
+    fetchDataFromPHPWithFaceta(lastQuery, faceta).then((data) => {
+      const actual: Resultado[] = [];
       const actualFacet: string[] = [];
       console.log(data);
-      for(const resultado of data.results){
-        
+      for (const resultado of data.results) {
         actual.push({
           logo: resultado.icon_url,
           titulo: resultado.value,
           snippet: resultado.id,
           url: resultado.url,
-          id : resultado.index
-        })
-        
+          id: resultado.index,
+        });
       }
       setResultados(actual);
       setLastQuery(lastQuery);
-      }
-    )
-  }
-  return(<>
-    <div className="navbar bg-neutral text-primary-conten sticky top-0 h-auto">
-      <button className="btn btn-ghost text-xl">BRIW</button>
-    </div>
-    <div className="flex justify-center items-center h-screen">
-  
-    {facetas.length > 0 && 
-    //Elemento Facetas
-    <Facetas 
-        facetas={facetas}
-        onSelectFaceta={handlerFaceta} 
-       >
-    </Facetas>}
-  
-      <div className="flex flex-col items-center h-screen w-full m-12">
-        <Buscador onEnter={handleOnEnter1 /*Barra de busqueda*/}/>
-        <div className="justify-content w-full">
-        { resultados.map((resultado) =>(
-          /*Cuando setResultadosSeUsa, todo esto cambia*/
-          <Resultado
-          key={resultado.id}
-          titulo={resultado.titulo}
-          snippet={resultado.snippet} 
-          //No se preocupen, la ip de chuck norris no tiene imagenes
-          logo={resultado.logo} 
-          url={resultado.url}
-        />
-        ))}
-        <Resultado 
-          titulo={"Tremendo Proyecto"}
-          snippet={"Debe ser un link a un lugar maravilloso"} 
-          logo={"./pat.svg"} 
-          url={"http://localhost/briw"}
-        />
+    });
+  };
+  return (
+    <>
+      <div className="navbar bg-neutral text-primary-conten sticky top-0 h-auto">
+        <button className="btn btn-ghost text-xl">BRIW</button>
+      </div>
+      <div className="flex justify-center items-center h-screen">
+        {facetas.length > 0 && (
+          //Elemento Facetas
+          <Facetas facetas={facetas} onSelectFaceta={handlerFaceta}></Facetas>
+        )}
+
+        <div className="flex flex-col items-center h-screen w-full m-12">
+          <Buscador onEnter={handleOnEnter1 /*Barra de busqueda*/} />
+          <div className="justify-content w-full">
+            {resultados.map((resultado) => (
+              /*Cuando setResultadosSeUsa, todo esto cambia*/
+              <Resultado
+                key={resultado.id}
+                titulo={resultado.titulo}
+                snippet={resultado.snippet}
+                //No se preocupen, la ip de chuck norris no tiene imagenes
+                logo={resultado.logo}
+                url={resultado.url}
+              />
+            ))}
+            <Resultado
+              titulo={"Tremendo Proyecto"}
+              snippet={"Debe ser un link a un lugar maravilloso"}
+              logo={"./pat.svg"}
+              url={"http://localhost/briw"}
+            />
+          </div>
         </div>
       </div>
-    </div>
-  </>)
+    </>
+  );
 }
+const backLink = "http://localhost/briw/back/search.php";
 
 async function obtenerResultados(busqueda: string) {
   //const response = await fetch(`https://api.chucknorris.io/jokes/search?query=${busqueda}`);
-  const response = await fetch(`http://localhost/briw__/ProyectoBRIW/Back/search.php?q=${busqueda}`);
+  const response = await fetch(
+    `http://localhost/briw__/ProyectoBRIW/Back/search.php?q=${busqueda}`
+  );
   if (!response.ok) {
-    throw new Error('Error fetching');
+    throw new Error("Error fetching");
   }
   const data = await response.json();
   return data;
 }
 
-async function fetchDataFromPHP (busqueda : string ) {
-  const response = await fetch(`http://localhost/briw__/ProyectoBRIW/Back/search.php?q=${busqueda}`);
+async function fetchDataFromPHP(busqueda: string) {
+  const response = await fetch(`${backLink}?q=${busqueda}`);
   if (!response.ok) {
-    throw new Error('Error fetching');
+    throw new Error("Error fetching");
   }
   const data = await response.json();
-  return data; 
-    
-};
+  return data;
+}
 
-async function fetchDataFromPHPWithFaceta(lastQuery : string, faceta: string) {
+async function fetchDataFromPHPWithFaceta(lastQuery: string, faceta: string) {
   //const response = await fetch(`https://api.chucknorris.io/jokes/search?query=${busqueda}`);
-  const response = await fetch(`http://localhost/briw__/ProyectoBRIW/Back/search.php?q=${lastQuery}&f=${faceta}`);
+  const response = await fetch(`${backLink}?q=${lastQuery}&f=${faceta}`);
   if (!response.ok) {
-    throw new Error('Error fetching');
+    throw new Error("Error fetching");
   }
   const data = await response.json();
   return data;
