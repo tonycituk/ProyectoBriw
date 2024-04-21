@@ -4,8 +4,8 @@ function ResultadoBusqueda({ titulo, snippet, logo, url }) {
     return (
       <div className=" border-secondary p-4 rounded-lg shadow-md flex items-center space-x-4 mr-12 z-0">
         {logo && (
-            <div className=" w-12 bg-neutral rounded-full">
-              <img  className="rounded-full" src={"./chuck.png"} alt="page logo"/> 
+            <div className="w-12 h-12 bg-neutral rounded-full flex justify-center">
+              <img  className="rounded-full" src={logo} alt="page logo"/> 
             </div>
         )}
         <div className="flex-grow">

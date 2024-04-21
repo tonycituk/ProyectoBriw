@@ -27,6 +27,7 @@ function App() {
   const [lastQuery, setLastQuery] = useState("");
   const baseUrl = window.location.origin; 
   const endpoint = '/ProyectoBRIW/Back/search.php';
+  const [loading, setLoading] = useState(false);
 
   const handleOnEnter = async (busqueda: string) => {
     try {
@@ -61,6 +62,7 @@ function App() {
   };
   const handleOnEnter1 = (busqueda: string)=>{
     if(!(busqueda=='')){
+      setLoading(true);
       fetchDataFromPHP(busqueda).then(
         data=>{
           const actual: Resultado[] = [];
@@ -95,13 +97,16 @@ function App() {
         setFacetas(actualFacet);
         setLastQuery(busqueda);
         }
-      )
+      ).finally(() => {
+        setLoading(false); // Ocultar spinner de carga
+      });
     }
   }
 
   const handlerFaceta = (faceta: string)=>{
     let parts = faceta.split(' '); 
     let f = parts[1]
+    setLoading(true);
     fetchDataFromPHPWithFaceta(lastQuery, f).then(
       data=>{
         const actual: Resultado[] = [];
@@ -120,14 +125,18 @@ function App() {
       }
       setResultados(actual);
       }
-    )
+    ).finally(() => {
+      setLoading(false); // Ocultar spinner de carga
+    });
   }
   return(<>
     <div className="navbar bg-neutral text-primary-conten sticky top-0 h-auto">
       <button className="btn btn-ghost text-xl">BRIW</button>
+      {loading && (
+        <span className="loading loading-spinner loading-lg text-primary"></span>
+      )}
     </div>
     <div className="flex justify-center items-center h-screen">
-  
     {facetas.length > 0 && 
     //Elemento Facetas
     <Facetas 

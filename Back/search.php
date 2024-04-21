@@ -2,7 +2,6 @@
 
 //"facet.field" => 'title',
 //"facet.contains" => $_GET['q'],
-// Imprimir los estilos CSS dentro de la etiqueta <style>
  header("Access-Control-Allow-Origin: *");
         header('Content-Type: application/json; charset=utf-8');
 
@@ -12,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $f = $_GET['f'] ?? '';
     if (!empty($query)) {
         $baseurl = "http://localhost:8983/solr/ProyectoFinal/select";
-        $rows = 30;
+        $rows = 100;
         $start = $_GET['start'] ?? 0;
         if (!empty($faceta)) {
             $faceta = "AND keywords_s:$faceta";
@@ -51,43 +50,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // Array para almacenar los resultados finales en formato JSON
         $json_results = ['results' => []];
 
-        foreach ($batches as $batch) {
-            $responses = process_batch($batch);
-            foreach ($responses as $url => $content) {
-                foreach ($resultado["response"]['docs'] as $pagina) {
-                    if ($pagina["url"][0] == $url) {
-                        $url = $pagina["url"][0]; // URL de la página
-
-                        // Obtener el título de la página
-                        $title = isset($pagina["title"][0]) ? $pagina["title"][0] : '';
-
-                        // Obtener el contenido del snippet
-                        $snippet = '';
-                        $dom = new DOMDocument();
-                        libxml_use_internal_errors(true);
-                        $dom->loadHTML($content);
-                        libxml_clear_errors();
-                        $xpath = new DOMXPath($dom);
-                        $meta_tags = $xpath->query('//meta[@name="description"]');
-                        if ($meta_tags->length > 0) {
-                            $snippet = $meta_tags[0]->getAttribute('content');
-                        }
-
-                        // URL del logo (icono)
-                        $logo = './pat.svg'; // ¡Ajusta esta ruta a tu imagen local!
-                        // Construir el resultado para esta página en formato JSON
-                        $json_results['results'][] = [
-                            'index' => (string) $index,
-                            'value' => $title,
-                            'id' => $snippet,
-                            'icon_url' => $logo,
-                            'url' => $url
-                        ];
-                        $index++;
-                    }
-                }
-            }
+        foreach ($resultado["response"]['docs'] as $pagina) {
+                // Obtener el título de la página
+                $title = isset($pagina["title"][0]) ? $pagina["title"][0] : '';
+                $snippet = isset($pagina["content"][0]) ? $pagina["content"][0] : '';
+                $title = isset($pagina["title"][0]) ? $pagina["title"][0] : '';
+                // Obtener el contenido del snippet
+                // URL del logo (icono)
+                $logo = isset($pagina["icon"][0]) ? $pagina["icon"][0] : '';
+                $url = isset($pagina["url"][0]) ? $pagina["url"][0] : '';
+                // Construir el resultado para esta página en formato JSON
+                $json_results['results'][] = [
+                    'index' => (string) $index,
+                    'value' => $title,
+                    'id' => $pagina["content"],
+                    'icon_url' => $pagina["icon"],
+                    'url' => $url
+                ];
+                $index++;
+            
         }
+
 
         // Agregar las facetas al resultado final
         if(!$index == 0){
@@ -97,47 +80,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
 
         // Convertir el array de resultados en JSON y enviar como respuesta
-       
+       //echo $json_results;
         echo json_encode($json_results);
         exit();
     }
 }
 
-
-// Función para procesar un lote de URL en paralelo
-function process_batch($urls) {
-    $responses = [];
-    $mh = curl_multi_init();
-
-    foreach ($urls as $url) {
-        $ch = curl_init();
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => true,
-        ]);
-        curl_multi_add_handle($mh, $ch);
-        $responses[$url] = $ch;
-    }
-
-    $running = null;
-    do {
-        curl_multi_exec($mh, $running);
-        curl_multi_select($mh);
-    } while ($running > 0);
-
-    foreach ($urls as $url) {
-        $ch = $responses[$url];
-        $content = curl_multi_getcontent($ch);
-        $responses[$url] = $content;
-        curl_multi_remove_handle($mh, $ch);
-        curl_close($ch);
-    }
-
-    curl_multi_close($mh);
-    
-    return $responses;
-}
 
 function apiMensaje($url, $parametros)
 {
