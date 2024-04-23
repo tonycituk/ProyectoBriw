@@ -45,44 +45,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         // Array para almacenar los resultados finales en formato JSON
         $json_results = ['results' => []];
-
+        /*/
         foreach ($batches as $batch) {
             $responses = process_batch($batch);
             foreach ($responses as $url => $content) {
+                */
                 foreach ($resultado["response"]['docs'] as $pagina) {
-                    if ($pagina["url"][0] == $url) {
                         $url = $pagina["url"][0]; // URL de la página
 
                         // Obtener el título de la página
                         $title = isset($pagina["title"][0]) ? $pagina["title"][0] : '';
 
                         // Obtener el contenido del snippet
-                        $snippet = '';
-                        $dom = new DOMDocument();
-                        libxml_use_internal_errors(true);
-                        $dom->loadHTML($content);
-                        libxml_clear_errors();
-                        $xpath = new DOMXPath($dom);
-                        $meta_tags = $xpath->query('//meta[@name="description"]');
-                        if ($meta_tags->length > 0) {
-                            $snippet = $meta_tags[0]->getAttribute('content');
-                        }
-
-                        // URL del logo (icono)
+                        
+                        // URL del logo (icon)
                         $logo = './pat.svg'; // ¡Ajusta esta ruta a tu imagen local!
                         // Construir el resultado para esta página en formato JSON
                         $json_results['results'][] = [
                             'index' => (string) $index,
                             'value' => $title,
-                            'id' => $snippet,
-                            'icon_url' => $logo,
+                            'id' => $pagina["content"],
+                            'icon_url' => $pagina["icon"],
                             'url' => $url
                         ];
                         $index++;
-                    }
                 }
-            }
-        }
 
         // Agregar las facetas al resultado final
         $json_results["categories"] = $facets;
