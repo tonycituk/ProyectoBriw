@@ -50,14 +50,14 @@ $(document).ready(function () {
       .then(response => response.json())
       .then(data => {
         const sugerencias = data?.[1]?.[0]?.[1] || [];
-        mostrarSugerencias(sugerencias);
+        return sugerencias
 
         // Verificar si hay correcciones y mostrarlas
         if (sugerencias && sugerencias.length > 0) {
           const correccion = sugerencias[0]; // Tomar la primera sugerencia como corrección
 
           // Mostrar la corrección en el contenedor de correcciones
-          mostrarCorreccion(correccion);
+
         }
       })
       .catch(error => console.error('Error al obtener sugerencias:', error));

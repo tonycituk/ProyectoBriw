@@ -1,0 +1,1 @@
+Esta carpeta es para poner archivos para referenciarlos como en html

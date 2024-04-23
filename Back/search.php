@@ -1,27 +1,32 @@
 <?php
-header("Access-Control-Allow-Origin: *");
+
+//"facet.field" => 'title',
+//"facet.contains" => $_GET['q'],
+ header("Access-Control-Allow-Origin: *");
+        header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $query = $_GET['q'] ?? '';
     $faceta = $_GET['f'] ?? '';
-
+    $f = $_GET['f'] ?? '';
     if (!empty($query)) {
         $baseurl = "http://localhost:8983/solr/ProyectoFinal/select";
-        $rows = 30;
+        $rows = 100;
         $start = $_GET['start'] ?? 0;
-        if(!empty($faceta)){
+        if (!empty($faceta)) {
             $faceta = "AND keywords_s:$faceta";
         }
         $mensaje = [
             "defType" => "lucene",
-            "facet.field" => 'keywords_s',
+            "facet.field" => 'title',
+            "facet.contains" => $f,
+            "facet.contains.ignoreCase"=>'true',
+            "fq"=>"title:*$f*",
             'facet.sort' => 'count',
             'facet' => 'true',
-
             'indent' => 'true',
             'q.op' => 'OR',
-            'q' => "(title:($query) OR content:($query) OR keywords_s:($query) )$faceta ",
-            //'q' => "title:$query~ OR content:$query~ OR keywords_s:$query",
+            'q' => "(title:($query) OR content:($query) OR keywords_s:($query) ) ",
             'start' => 0,
             'rows' => $rows,
             'sort' => 'score desc',
@@ -29,52 +34,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             'useParams' => ''
         ];
         $resultado = apiMensaje($baseurl, $mensaje);
+        //echo json_encode($resultado);
+        // Obtener las URLs de las páginas
+        $facets = $resultado["facet_counts"]["facet_fields"]['title'];
+        //$resultado = $resultado["response"]['docs'];
+        $urls = [];
+        foreach ($resultado["response"]['docs'] as $pagina) {
+            $urls[] = $pagina["url"][0];
+        }
+        $index = 0;
+        // Dividir las URLs en lotes para procesamiento en paralelo
+        $batch_size = 30;
+        $batches = array_chunk($urls, $batch_size);
 
-        //facetas
-        $facets = $resultado["facet_counts"]["facet_fields"]['keywords_s'];
-        $resultado = $resultado["response"]['docs'];
+        // Array para almacenar los resultados finales en formato JSON
+        $json_results = ['results' => []];
 
-
-        
-        echo "Estás son palabras que se han buscado recientemente:<br>";
-        $numFacetas = 10;
-        for($i =0; $i< ($numFacetas* 2); $i++){
-            if(strlen($facets[$i])<=3 && $i%2==0){
-                $i+=2;
-            }
-            echo "<input type='radio' id='$facets[$i]' name='f' value='$facets[$i]'>";
-            $cantidad =$facets[$i+1];
-            echo "<label for='$facets[$i]'>$facets[$i] $cantidad</label><br>";
-            $i++;
+        foreach ($resultado["response"]['docs'] as $pagina) {
+                // Obtener el título de la página
+                $title = isset($pagina["title"][0]) ? $pagina["title"][0] : '';
+                $snippet = isset($pagina["content"][0]) ? $pagina["content"][0] : '';
+                $title = isset($pagina["title"][0]) ? $pagina["title"][0] : '';
+                // Obtener el contenido del snippet
+                // URL del logo (icono)
+                $logo = isset($pagina["icon"][0]) ? $pagina["icon"][0] : '';
+                $url = isset($pagina["url"][0]) ? $pagina["url"][0] : '';
+                // Construir el resultado para esta página en formato JSON
+                $json_results['results'][] = [
+                    'index' => (string) $index,
+                    'value' => $title,
+                    'id' => $pagina["content"],
+                    'icon_url' => $pagina["icon"],
+                    'url' => $url
+                ];
+                $index++;
+            
         }
 
-        
-        foreach ($resultado as $pagina) {
-            echo "<h3><b>";
-            echo $pagina["title"][0];
-            echo "</b>";
-            $url =  $pagina["url"][0];
-            echo "<a href='$url'> ir</a>";
-            echo "<br>";
-            echo "</h3>";
-            echo "     ";
-       
-    
-            echo "     ";
-            $content = $pagina["content"];
-            $words = str_word_count($content, 1);
-            // Limitar el contenido a 100 palabras
-            $limitedContent = implode(' ', array_slice($words, 0, 100));
-            // Imprimir el contenido limitado a 100 palabras
-            echo $limitedContent;
-            echo "     ";
-            echo "<br>";
-        }
-      
 
-        //echo "<pre>";
-        //var_dump($facets);
-        //echo "</pre>";
+        // Agregar las facetas al resultado final
+        if(!$index == 0){
+            $json_results["categories"] = $facets;
+        }else{
+            $json_results["categories"]  = null;
+        }
+
+        // Convertir el array de resultados en JSON y enviar como respuesta
+       //echo $json_results;
+        echo json_encode($json_results);
         exit();
     }
 }
@@ -90,3 +97,4 @@ function apiMensaje($url, $parametros)
     $result = json_decode($output, true);
     return $result;
 }
+
