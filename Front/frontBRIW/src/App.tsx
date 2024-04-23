@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Buscador from "./Buscador";
 import Resultado from "./Resultado";
 import Facetas from "./Facetas";
+import MenuFavoritos from "./MenuFavoritos";
 
 interface Resultado {
   titulo: string;
@@ -126,13 +127,15 @@ function App() {
         setLoading(false); // Ocultar spinner de carga
       });
   };
+
   return (
     <>
-      <div className="navbar bg-neutral text-primary-conten sticky top-0 h-auto">
+      <div className="flex justify-between navbar bg-neutral text-primary-conten sticky top-0 h-auto">
         <button className="btn btn-ghost text-xl">BRIW</button>
         {loading && (
           <span className="loading loading-spinner loading-lg text-primary"></span>
         )}
+        <MenuFavoritos />
       </div>
       <div className="flex justify-center items-center h-screen">
         {facetas.length > 0 && (
@@ -166,8 +169,7 @@ function App() {
     </>
   );
 }
-const backLink = "http://localhost/briw/back/search.php";
-
+const backLink = "http://localhost/briw/Back/search.php";
 async function obtenerResultados(busqueda: string) {
   //const response = await fetch(`https://api.chucknorris.io/jokes/search?query=${busqueda}`);
   const response = await fetch(
