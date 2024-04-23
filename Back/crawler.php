@@ -12,6 +12,8 @@ use voku\helper\StopWords;
 
 set_time_limit(300);
 //header('Content-Type: application/xml');
+set_time_limit(300);
+//header('Content-Type: application/xml');
 class WebCrawler
 {
     private $client;
@@ -46,10 +48,16 @@ class WebCrawler
         //Obtener los datos en el <head> de la pagina
         $meta = getUrlData($url);
         
+        //Obtener los datos en el <head> de la pagina
+        $meta = getUrlData($url);
+        
         // Datos a indexar en Solr con el título real del contenido
         $contenido = contenido($content);
         $data_to_index = [
             'id' => uniqid(), // Generar un ID único para el documento
+            'title' => $meta["title"],
+            //Si la pagina ya tiene descripcion, entonces usarla, si no, sacarla del contenido de la pagina
+            'content' => isset($meta["metaTags"]["description"]) ?$meta["metaTags"]["description"]["value"]: substr($contenido,0,1000),
             'title' => $meta["title"],
             //Si la pagina ya tiene descripcion, entonces usarla, si no, sacarla del contenido de la pagina
             'content' => isset($meta["metaTags"]["description"]) ?$meta["metaTags"]["description"]["value"]: substr($contenido,0,1000),
@@ -62,6 +70,29 @@ class WebCrawler
         var_dump($data_to_index);
         echo "</pre>";
         // Conexión y envío de datos a Solr
+        //$client = new Client();
+        $url = $solrUrl;
+        $data = json_encode([$data_to_index]);
+
+        // use key 'http' even if you send the request to https://...
+        $options = [
+            'http' => [
+                'timeout' => 3, // 3 segundos
+                'header' => array(
+                    "Content-type: application/json",
+                    "Connection: close"
+                ),
+                'method' => 'POST',
+                'content' => $data,
+            ],
+        ];
+
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        if ($result === false) {
+            return 'Error al indexar datos en Solr: ';
+        }else{
+            return 'Datos indexados correctamente en Solr.';
         //$client = new Client();
         $url = $solrUrl;
         $data = json_encode([$data_to_index]);
@@ -133,11 +164,16 @@ class WebCrawler
             $absoluteUrl="";
             //Hay paginas que hacen referencia a si mismas, pero con url referenciales, (/casa/noticias)
             //estas hay que convertirlas en url absolutas (https://pagina.com/casa/noticias)
+            //Hay paginas que hacen referencia a si mismas, pero con url referenciales, (/casa/noticias)
+            //estas hay que convertirlas en url absolutas (https://pagina.com/casa/noticias)
             if (strpos($href,'http') !== false) {
                 $absoluteUrl=$href;
             } else {
                 $absoluteUrl = $this->resolveUrl($href, $baseUrl);
             }
+            //Si no es una seccion en la misma pagina, Es una url valida y no estaba ya en la cola.
+            //Entonces añadela a la cola
+            if (strpos($href,'#') == false && $this->isValidUrl($absoluteUrl) && !$this->urlAlreadyQueued($absoluteUrl)) {
             //Si no es una seccion en la misma pagina, Es una url valida y no estaba ya en la cola.
             //Entonces añadela a la cola
             if (strpos($href,'#') == false && $this->isValidUrl($absoluteUrl) && !$this->urlAlreadyQueued($absoluteUrl)) {
