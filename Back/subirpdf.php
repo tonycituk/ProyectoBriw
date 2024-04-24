@@ -47,7 +47,9 @@ function guardarArchivos($directorio){
   $archivos = [];
   $cantidad = sizeof($_FILES["archivos"]["name"]);
   for($i =0; $i<$cantidad; $i++){
+    
     $nombre = nombreArchivo( $_FILES["archivos"]["name"][$i]);
+    echo $nombre;
     if($_FILES["archivos"]["type"][$i]!=="application/pdf"){
       echo "No es un archivo pdf";
       return;
