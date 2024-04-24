@@ -10,7 +10,10 @@
   <input type="submit" value="Subir archivos" name="subir">
 </form>
 
-<?php 
+<?php
+
+header('Access-Control-Allow-Origin: *');
+
 if(!(isset($_FILES["archivos"]) && !empty($_FILES["archivos"]["name"][0]))){
    return;
 }
@@ -33,7 +36,7 @@ if(!(isset($_FILES["archivos"]) && !empty($_FILES["archivos"]["name"][0]))){
   return;
 }
 
-$server = 'localhost/briw/back/';
+$server = 'localhost/BRIW/ProyectoBRIW/Back/';
 $directorio = 'archivos/';
 $archivos = guardarArchivos($directorio);
 
@@ -75,11 +78,13 @@ function indexarArchivos($archivos){
     $datos= [
         'id' => uniqid(),
         'title'=> $nombre,
-        'content'=> $contenido,
+        'content'=> "Archivo subido por el usuario",
         'url' => $url,
         'keywords_s'=> palabrasClave($contenido, 20),
+        'icon'=> "./pdf.svg",
         'language'=> lenguaje($contenido)
     ];
+    var_dump($datos);
     indexarPDF($datos);
 }
 
@@ -158,6 +163,7 @@ function palabrasClave($content, int $cantidad){
     arsort($normalizado);
     $palabrasClave = array_slice($normalizado, 0, $cantidad);
     $palabrasClave = array_keys($palabrasClave);
+    array_push($palabrasClave, "pdf", "PDF");
     return $palabrasClave;
 }
 function lenguaje($contenido){
