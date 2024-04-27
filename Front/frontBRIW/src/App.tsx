@@ -27,6 +27,13 @@ function App() {
   const baseUrl = window.location.origin;
   const endpoint = "/ProyectoBRIW/Back/search.php";
   const [loading, setLoading] = useState(false);
+  const [fileList, setFileList] = useState<FileList | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFileList(e.target.files);
+    }
+  };
 
   const handleOnEnter = async (busqueda: string) => {
     try {
@@ -128,10 +135,136 @@ function App() {
       });
   };
 
+  const files = fileList ? [...fileList] : [];
+
+  const handleUpload = async () => {
+    document.getElementById("loadingModal").showModal();
+    document.getElementById("loadingSpin").style.display = "block";
+    document.getElementById("loadingCompl").style.display = "none";
+    document.getElementById("loadingWarn").style.display = "none";
+    if (fileList) {
+      console.log("Uploading file...");
+      const formData = new FormData();
+      files.forEach((file, i) => {
+        formData.append(`archivos[]`, file);
+      });
+      console.log(Array.from(formData.keys()).length);
+      try {
+        const subirpdfLink = "http://localhost/briw/back/subirPDF.php";
+        // You can write the URL of your server or any other endpoint used for file upload
+        const result = await fetch(subirpdfLink, {
+          method: "POST",
+          body: formData,
+        }).then((response) => {
+          if (response.status === 200) {
+            console.log("Exito");
+            document.getElementById("loadingSpin").style.display = "none";
+            document.getElementById("loadingCompl").style.display = "block";
+          } else {
+            document.getElementById("loadingSpin").style.display = "none";
+            document.getElementById("loadingWarn").style.display = "block";
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    setTimeout(() => {
+      document.getElementById("exitBtn").click();
+    }, 3000);
+  };
+
   return (
     <>
       <div className="flex justify-between navbar bg-neutral text-primary-conten sticky top-0 h-auto">
         <button className="btn btn-ghost text-xl">BRIW</button>
+        {/* Modal para subir PDFs */}
+        <button
+          className="btn"
+          onClick={() => document.getElementById("ModalPDF").showModal()}
+        >
+          Subir PDF
+        </button>
+        <dialog id="ModalPDF" className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">
+              Sube tu PDF haciendo click al botón.
+            </h3>
+            <div className="py-10 px-10 mx-0 min-w-full flex flex-col items-center">
+              <input
+                type="file"
+                onChange={handleFileChange}
+                accept="application/pdf"
+                name="archivos[]"
+                multiple
+              />
+              <br />
+              <input
+                className="btn btn-wide btn-accent"
+                onClick={handleUpload}
+                value="Indexar archivos"
+                name="subir"
+              />
+            </div>
+
+            <div className="modal-action">
+              <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn">Close</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
+
+        {/*Loading*/}
+
+        <dialog id="loadingModal" className="modal">
+          <div className="modal-box">
+            <div
+              className="py-10 px-10 mx-0 min-w-full flex flex-col items-center"
+              id="loadingSpin"
+            >
+              <span className="loading loading-spinner loading-lg"></span>
+            </div>
+            <div role="alert" className="alert alert-success" id="loadingCompl">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="stroke-current shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>Archivo indexado con exito</span>
+            </div>
+            <div role="alert" className="alert alert-warning" id="loadingWarn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="stroke-current shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>Hubo un problema.</span>
+            </div>
+          </div>
+          <form method="dialog" className="modal-backdrop">
+            <button id="exitBtn">close</button>
+          </form>
+        </dialog>
+
+        {/* Modal para subir PDFs */}
         {loading && (
           <span className="loading loading-spinner loading-lg text-primary"></span>
         )}
@@ -169,11 +302,12 @@ function App() {
     </>
   );
 }
-const backLink = "http://localhost/briw/Back/search.php";
+
+const backLink = "http://localhost/BRIW/Back/search.php";
 async function obtenerResultados(busqueda: string) {
   //const response = await fetch(`https://api.chucknorris.io/jokes/search?query=${busqueda}`);
   const response = await fetch(
-    `http://localhost/briw__/ProyectoBRIW/Back/search.php?q=${busqueda}`
+    `http://localhost/BRIW/ProyectoBRIW/Back/search.php?q=${busqueda}`
   );
   if (!response.ok) {
     throw new Error("Error fetching");

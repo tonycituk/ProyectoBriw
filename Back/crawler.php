@@ -93,33 +93,10 @@ class WebCrawler
             return 'Error al indexar datos en Solr: ';
         }else{
             return 'Datos indexados correctamente en Solr.';
-        //$client = new Client();
-        $url = $solrUrl;
-        $data = json_encode([$data_to_index]);
-
-        // use key 'http' even if you send the request to https://...
-        $options = [
-            'http' => [
-                'timeout' => 3, // 3 segundos
-                'header' => array(
-                    "Content-type: application/json",
-                    "Connection: close"
-                ),
-                'method' => 'POST',
-                'content' => $data,
-            ],
-        ];
-
-        $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-        if ($result === false) {
-            return 'Error al indexar datos en Solr: ';
-        }else{
-            return 'Datos indexados correctamente en Solr.';
         }
     }
 
-    public function startCrawling()
+    function startCrawling()
     {
         while (!empty($this->urlsToCrawl)) {
             [$url, $depth] = array_shift($this->urlsToCrawl);
@@ -181,9 +158,9 @@ class WebCrawler
             }
         }
     }
+    }
 
-    private function resolveUrl($href, $baseUrl)
-    {
+    private function resolveUrl($href, $baseUrl){
         $href = trim($href);
         $baseUrl = trim($baseUrl);
         return rtrim($baseUrl, '/') . '/' . ltrim($href, '/');

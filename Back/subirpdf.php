@@ -10,7 +10,10 @@
   <input type="submit" value="Subir archivos" name="subir">
 </form>
 
-<?php 
+<?php
+
+header('Access-Control-Allow-Origin: *');
+
 if(!(isset($_FILES["archivos"]) && !empty($_FILES["archivos"]["name"][0]))){
    return;
 }
@@ -33,7 +36,7 @@ if(!(isset($_FILES["archivos"]) && !empty($_FILES["archivos"]["name"][0]))){
   return;
 }
 
-$server = 'localhost/briw/back/';
+$server = 'localhost/BRIW/Back/';
 $directorio = 'archivos/';
 $archivos = guardarArchivos($directorio);
 
@@ -77,11 +80,13 @@ function indexarArchivos($archivos){
     $datos= [
         'id' => uniqid(),
         'title'=> $nombre,
-        'content'=> $contenido,
+        'content'=> "Archivo subido por el usuario",
         'url' => $url,
         'keywords_s'=> palabrasClave($contenido, 20),
+        'icon'=> "./pdf.svg",
         'language'=> lenguaje($contenido)
     ];
+    var_dump($datos);
     indexarPDF($datos);
 }
 
@@ -135,32 +140,45 @@ function nombreArchivo(string $nombre){
 
 use voku\helper\StopWords;
 use ICanBoogie\Inflector;
-function palabrasClave($content, int $cantidad){
-    //Limpiar texto,
-    
-    $sw = new StopWords();
-    $resultado = preg_replace('/\s+/', ' ', preg_replace('/[^a-zA-ZáéíóúÁÉÍÓÚ\s]+/u', '', $content)); //Dejar solo letras 
-    $lenguaje = lenguaje($resultado);
+function palabrasClave($content, int $cantidad,$meta = []){
+  //Limpiar texto,
+  if(isset($meta["metaTags"]["keywords"])){
+      return explode(",",$meta["metaTags"]["keywords"]["value"]);
+  }else{
+  $sw = new StopWords();
+  $resultado = strtolower($content);
+  $lenguaje = lenguaje($resultado);
 
-    $listaPV = $sw->getStopWordsFromLanguage($lenguaje);
-    $resultado = preg_replace('/\b('.implode('|',$listaPV).')\b/','',$resultado);//Quitar palabras vacias
-    $tokens = explode(' ', $resultado); //Dividir en palabras
-    
-    $normalizado= [];
-    $inflector = Inflector::get($lenguaje);
-    foreach($tokens as $token){//Normalizar todas las palabras, para eliminar repetidos
-        $normal=  $inflector->singularize($token); 
-        if(!array_key_exists($normal, $normalizado)){
-            $normalizado[$normal] = 1;
-        }else{
-            $normalizado[$normal]+= 1;
-        }
-    } 
-    //Obtener las mas importantes
-    arsort($normalizado);
-    $palabrasClave = array_slice($normalizado, 0, $cantidad);
-    $palabrasClave = array_keys($palabrasClave);
-    return $palabrasClave;
+  $listaPV = $sw->getStopWordsFromLanguage($lenguaje);
+  $resultado = preg_replace('/\b('.implode('|',$listaPV).')\b/','',$resultado);//Quitar palabras vacias
+  $tokens = explode(' ', $resultado); //Dividir en palabras
+  
+  $normalizado= [];
+  $inflector = Inflector::get($lenguaje);
+  foreach($tokens as $token){//Normalizar todas las palabras, para eliminar repetidos
+      $normal=  $inflector->singularize($token); 
+      if(!array_key_exists($normal, $normalizado)){
+          $normalizado[$normal] = 1;
+      }else{
+          $normalizado[$normal]+= 1;
+      }
+  } 
+  //Obtener las mas importantes
+  arsort($normalizado);
+  
+  $palabrasClave = array_slice($normalizado, 0, $cantidad);
+  $palabrasClave = array_keys($palabrasClave);
+  $regresar = [];
+  for($i = 0 ;$i< sizeof($palabrasClave); $i++){
+      //$palabrasClave[$i] = preg_replace('/\b('.implode('|',$listaPV).')\b/',' ',$palabrasClave[$i]);
+      if($palabrasClave[$i] != "" && strlen($palabrasClave[$i])>4 ){
+          $regresar[]  = $inflector->titleize($palabrasClave[$i]);
+          
+      }
+  }
+  array_push($regresar,"PDF","pdf");
+  return $regresar;
+  }
 }
 function lenguaje($contenido){
     $detector = new LanguageDetector\LanguageDetector();
