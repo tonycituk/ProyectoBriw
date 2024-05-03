@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
-import { Favorito } from "../interfaces/Favoritos";
+import { Favorito } from "../interfaces/Favorito";
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [favoritos, setFavoritos] = useState<Favorito[]>([]);
+  const [favoritos, setFavoritos] = useState<Favorito[]>(
+    JSON.parse(localStorage.getItem("favoritos")!) || []
+  );
 
   useEffect(() => {
     localStorage.setItem("favoritos", JSON.stringify(favoritos));
