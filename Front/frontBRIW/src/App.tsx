@@ -150,7 +150,7 @@ function App() {
       });
       console.log(Array.from(formData.keys()).length);
       try {
-        const subirpdfLink = "http://localhost/briw/back/subirPDF.php";
+        const subirpdfLink = "http://localhost/BRIW/ProyectoBRIW/back/subirPDF.php";
         // You can write the URL of your server or any other endpoint used for file upload
         const result = await fetch(subirpdfLink, {
           method: "POST",
@@ -294,7 +294,7 @@ function App() {
               titulo={"Tremendo Proyecto"}
               snippet={"Debe ser un link a un lugar maravilloso"}
               logo={"./pat.svg"}
-              url={"http://localhost/briw"}
+              url={"https://www.google.com/"}
             />
           </div>
         </div>
@@ -303,7 +303,7 @@ function App() {
   );
 }
 
-const backLink = "http://localhost/BRIW/Back/search.php";
+const backLink = "http://localhost/BRIW/ProyectoBRIW/Back/search.php";
 async function obtenerResultados(busqueda: string) {
   //const response = await fetch(`https://api.chucknorris.io/jokes/search?query=${busqueda}`);
   const response = await fetch(

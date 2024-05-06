@@ -1,8 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "./context/UserContext";
+import ModalScreenshot from "./ModalScreenshot";
 
 function ResultadoBusqueda({ titulo, snippet, logo, url }) {
   const { favoritos, setFavoritos } = useContext(UserContext);
+  const [ tituloModal, setTituloModal] = useState("");
+  const [ linkModal, setLinkModal] = useState("");
+  const [ showPreview, setShowPreview] = useState(false);
 
   const shouldAddToFavorites = () => {
     if (favoritos.some((favorito) => favorito.url === url)) {
@@ -11,6 +15,10 @@ function ResultadoBusqueda({ titulo, snippet, logo, url }) {
       setFavoritos([...favoritos, { titulo, url, logo }]);
     }
   };
+
+  const modalHandler = (response : string) => {
+    setShowPreview(false);
+  }
 
   return (
     <div className=" border-secondary p-4 rounded-lg shadow-md flex items-center space-x-4 mr-12 z-0">
@@ -36,7 +44,23 @@ function ResultadoBusqueda({ titulo, snippet, logo, url }) {
           rel="noopener noreferrer"
         >
           {url}
-        </a>
+        </a> <br/>
+        <button className= {
+          (snippet == "Archivo subido por el usuario")? "hidden" : "btn"
+        } onClick={() => {
+          setTituloModal(titulo);
+          setLinkModal("http://localhost/BRIW/ProyectoBRIW/Back/Screenshot.php?link=" + {url});
+          setShowPreview(true);
+          }}>Previsualizar página</button>
+          {showPreview && (
+          //Elemento Modal
+          <ModalScreenshot 
+            titulo = {titulo} 
+            link = {"http://localhost/BRIW/ProyectoBRIW/Back/Screenshot.php?link=" + url}
+            closeModal = {modalHandler}
+            >
+          </ModalScreenshot>
+          )}
       </div>
       <button id="favButton" onClick={() => shouldAddToFavorites()}>
         <span className="material-icons-outlined">
@@ -48,5 +72,7 @@ function ResultadoBusqueda({ titulo, snippet, logo, url }) {
     </div>
   );
 }
+
+
 
 export default ResultadoBusqueda;
