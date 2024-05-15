@@ -307,9 +307,9 @@ function getUrlData($url) {
         preg_match_all('/<[\s]*meta[\s]*name="?' . '([^>"]*)"?[\s]*' . 'content="?([^>"]*)"?[\s]*[\/]?[\s]*>/si', $contents, $match);
     
         if (isset($match) && is_array($match) && count($match) == 3) {
-            $originals = $match[0];
-            $names = $match[1];
-            $values = $match[2];
+            $originals = (array)$match[0];
+            $names = (array)$match[1];
+            $values = (array)$match[2];
             //Es una funcion copiada de internet, no le hagan caso a los errores
             if (count($originals) == count($names) && count($names) == count($values)) {
                 $metaTags = array();
