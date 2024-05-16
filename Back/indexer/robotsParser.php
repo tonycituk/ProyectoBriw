@@ -10,7 +10,8 @@ class RobotsParser{
     {
         $parsedUrl = parse_url($url);
         $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . '/robots.txt';
-        $contentType = get_headers($baseUrl, true, utils::getContex())['Content-Type'];
+        $contentType = get_headers($baseUrl, true, utils::getContex());
+        $contentType = isset($contentType['Content-Type'])? $contentType['Content-Type'] : "no/format";
         if(str_contains($contentType,'text/plain')){
             $this->parse($baseUrl);
         }else{
@@ -34,7 +35,9 @@ class RobotsParser{
                 $rules[$currentUser] = [];
             }
             if(strpos($line, "Disallow:") === 0){
-                $rule = explode(": ", $line)[1];
+                
+                $rule = explode(": ", $line);
+                $rule = isset($rule[1])? $rule[1] : "";
                 $rule =preg_quote(trim($rule), "/");
                 $rule = str_replace("\*", "[^.]*", $rule);
                 $rules[$currentUser]["Disallow"][] = $rule;
@@ -69,6 +72,7 @@ class RobotsParser{
     }
 }
 
+/*
 $baseUrl = "https://www.matematicas.uady.mx/";
 $pagina = new Pagina($baseUrl);
 $test = new RobotsParser($baseUrl);
@@ -81,5 +85,5 @@ var_dump($referencias );
 //var_dump($test->isAllowed("https://www.xataka.com.mx/trackback/asdf"));
 var_dump($urls);
 echo "</pre>";
-
+*/
 ?>

@@ -63,6 +63,7 @@ class Pagina{
     }
 
     public function getUrls(){
+
         $dom = new DOMDocument();
         @$dom->loadHTML($this->content); // Ignora los errores de HTML mal formado
         $links = $dom->getElementsByTagName('a');
@@ -95,7 +96,7 @@ class Pagina{
                     if ($href[0] !== '/') {
                         $href = '/' . $href;
                     }
-                    $href =  $parsedUrl["scheme"]."://".$parsedUrl['host'].$path.$href;
+                    $href =  $parsedUrl["scheme"]."://".$parsedUrl['host'].$href;
                     $parsedref = parse_url($href);
                     $href = $parsedref["scheme"]."://".$parsedref['host'].$parsedref["path"];
                     $urls[] = (string) $href;

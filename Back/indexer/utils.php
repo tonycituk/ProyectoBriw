@@ -189,6 +189,42 @@ class utils{
             return 'rel';
         }
     }
+
+    public static function indexContentToSolr(string $path)
+    {
+        $url = 'http://localhost:8983/solr/ProyectoFinal/update/?commit=true';
+        $lines = fopen($path,"r");
+        $data = stream_get_contents($lines);
+        fclose($lines);
+        // use key 'http' even if you send the request to https://...
+        $options = [
+            'http' => [
+                'timeout' => 3, // 3 segundos
+                'header' => array(
+                    "Content-type: application/json",
+                    "Connection: close"
+                ),
+                'method' => 'POST',
+                'content' => $data,
+            ],
+        ];
+
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        if ($result === false) {
+            return 'Error al indexar datos en Solr: ';
+        }else{
+            return 'Datos indexados correctamente en Solr.';
+        }
+    }
+
+    public static function savePageIndex(string $path){
+        $index = "pages/index.txt";
+        $index = fopen($index, "a");
+        fwrite($index, "$path\n");
+        fclose($index);
+
+    }
 }
 
 ?>

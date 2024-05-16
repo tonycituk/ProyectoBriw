@@ -1,0 +1,5 @@
+pages/cnnespanol.cnn.com.json
+pages/www.matematicas.uady.mx.json
+pages/www.php.net.json
+pages/www.xataka.com.mx.json
+pages/uady.mx.json
