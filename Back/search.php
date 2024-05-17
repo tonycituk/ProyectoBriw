@@ -1,12 +1,13 @@
 <?php
-
+include "consulta.php";
 //"facet.field" => 'title',
 //"facet.contains" => $_GET['q'],
  header("Access-Control-Allow-Origin: *");
-        header('Content-Type: application/json; charset=utf-8');
+ header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $query = $_GET['q'] ?? '';
+    $query = consulta::prepararConsulta($query);
     $faceta = $_GET['f'] ?? '';
     $f = $_GET['f'] ?? '';
     if (!empty($query)) {
