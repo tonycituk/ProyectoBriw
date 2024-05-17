@@ -279,7 +279,6 @@ function lenguaje($contenido){
 
 
 $startUrls = [
-    'https://www.xataka.com.mx/',
     'https://es.wikipedia.org/'
 ];
 

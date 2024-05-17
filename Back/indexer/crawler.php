@@ -59,7 +59,7 @@ class Crawler{
 }
 
 $urls = [
-    "https://uady.mx/"
+    "https://www.xataka.com.mx/"
 ];
 
 foreach($urls as $url){

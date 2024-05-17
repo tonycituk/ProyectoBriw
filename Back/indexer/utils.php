@@ -2,7 +2,6 @@
 require '../../vendor/autoload.php';
 use ICanBoogie\Inflector;
 use voku\helper\StopWords;
-
 class utils{
     public static  function lenguaje(string $contenido): string{
         $detector = new LanguageDetector\LanguageDetector();
@@ -18,24 +17,14 @@ class utils{
     public static function getUrlContents($url, $maximumRedirections = null, $currentRedirection = 0) {
         $result = false;
         $context = utils::getContex();
-        $contents = @file_get_contents($url, false, $context);
-        
-        // Check if we need to go somewhere else
-        
-        if (isset($contents) && is_string($contents)) {
-            preg_match_all('/<[\s]*meta[\s]*http-equiv="?REFRESH"?' . '[\s]*content="?[0-9]*;[\s]*URL[\s]*=[\s]*([^>"]*)"?' . '[\s]*[\/]?[\s]*>/si', $contents, $match);
-        
-            if (isset($match) && is_array($match) && count($match) == 2 && count($match[1]) == 1) {
-                if (!isset($maximumRedirections) || $currentRedirection < $maximumRedirections) {
-                    return utils::getUrlContents($match[1][0], $maximumRedirections, ++$currentRedirection);
-                }
-        
-                $result = false;
-            } else {
-                $result = $contents;
-            }
-        }
-        return  $contents;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_MAXREDIRS, $maximumRedirections);
+        curl_setopt($ch, CURLOPT_USERAGENT,"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0 " );
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        return $response;
     }
 
     public static  function getUrlData(string $url, $contents = null): array| bool{
@@ -193,27 +182,35 @@ class utils{
     public static function indexContentToSolr(string $path)
     {
         $url = 'http://localhost:8983/solr/ProyectoFinal/update/?commit=true';
-        $lines = fopen($path,"r");
+        
+        // Leer el contenido del archivo
+        $lines = fopen($path, "r");
         $data = stream_get_contents($lines);
         fclose($lines);
-        // use key 'http' even if you send the request to https://...
-        $options = [
-            'http' => [
-                'timeout' => 3, // 3 segundos
-                'header' => array(
-                    "Content-type: application/json",
-                    "Connection: close"
-                ),
-                'method' => 'POST',
-                'content' => $data,
-            ],
-        ];
-
-        $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
+        
+        // Inicializar cURL
+        $ch = curl_init($url);
+        
+        // Configurar las opciones de cURL
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 3); // 3 segundos de tiempo de espera
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            "Content-type: application/json",
+            "Connection: close"
+        ));
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        
+        // Ejecutar la solicitud cURL
+        $result = curl_exec($ch);
+        
+        // Verificar si hubo un error
         if ($result === false) {
-            return 'Error al indexar datos en Solr: ';
-        }else{
+            $error = curl_error($ch);
+            curl_close($ch);
+            return 'Error al indexar datos en Solr: ' . $error;
+        } else {
+            curl_close($ch);
             return 'Datos indexados correctamente en Solr.';
         }
     }
@@ -226,5 +223,6 @@ class utils{
 
     }
 }
+
 
 ?>

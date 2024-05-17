@@ -1,71 +1,122 @@
 [
   {
-    "id": "66458cdb5e155",
+    "id": "6646d42073a88",
     "title": "Xataka M\u00e9xico",
     "content": "Publicaci\u00f3n de noticias sobre gadgets, tecnolog\u00eda, software y videojuegos. \u00daltimas tecnolog\u00edas en electr\u00f3nica de consumo y novedades tecnol\u00f3gicas en M\u00e9xico.",
     "url": "https://www.xataka.com.mx/",
     "keywords_s": [
+      "Mercado",
       "Categoria",
+      "Libre",
       "Xataka",
-      "Descuento",
-      "Mejor",
-      "Celular",
-      "Comentario",
       "Videojuego",
-      "Amazon",
-      "Autor"
+      "Huawei",
+      "Comentario"
     ],
     "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
   },
   {
-    "id": "66458cdc15605",
+    "id": "6646d4217a398",
+    "title": "Mundo HUAWEI 2024 - Xataka M\u00e9xico",
+    "content": "Mundo HUAWEI 2024:Huawei Pura 70 series: la pr\u00f3xima era de la fotograf\u00eda m\u00f3vil.C\u00f3mo aprovechar cada una de las espectaculares capacidades fotogr\u00e1ficas del HUAWEI...",
+    "url": "https://www.xataka.com.mx/tag/mundo-huawei-2024",
+    "keywords_s": [
+      "Huawei",
+      "Xataka",
+      "Categoria",
+      "Mercado",
+      "Djuego",
+      "Libre",
+      "Xiaomi",
+      "Mexico",
+      "Videojuego"
+    ],
+    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
+  },
+  {
+    "id": "6646d422155aa",
     "title": "Xataka Selecci\u00f3n M\u00e9xico - Xataka M\u00e9xico",
     "content": "Una selecci\u00f3n de los mejores precios, descuentos y ofertas en tecnolog\u00eda e inform\u00e1tica para comprar celulares, laptop, smartwatch, televisores, consolas, videojuegos y accesorios de electr\u00f3nica",
     "url": "https://www.xataka.com.mx/categoria/seleccion",
     "keywords_s": [
-      "Categoria",
-      "Amazon",
-      "Seleccion",
-      "Xataka",
-      "Selecci",
-      "Descuento",
-      "Comentario",
-      "Autor",
-      "Mercado"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458cdc9f9d0",
-    "title": "Ofertas - Xataka M\u00e9xico",
-    "content": "Ofertas:Ni Elon Musk se salva del Hot Sale 2024: Kit Starlink en Mercado Libre con m\u00e1s del 30% de descuento.AirTag, m\u00e1s barato que nunca en Amazon M\u00e9xico...",
-    "url": "https://www.xataka.com.mx/tag/ofertas",
-    "keywords_s": [
-      "Amazon",
-      "Categoria",
-      "Seleccion",
-      "Xataka",
-      "Descuento",
-      "Oferta",
       "Mercado",
+      "Categoria",
+      "Libre",
+      "Seleccion",
+      "Xataka",
       "Selecci",
+      "Amazon",
+      "Descuento",
       "Comentario",
       "Autor"
     ],
     "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
   },
   {
-    "id": "66458cdd32ccb",
+    "id": "6646d422af87f",
+    "title": "Xataka Gaming - Noticias, lanzamientos y an\u00e1lisis de juegos - Xataka M\u00e9xico",
+    "content": "Todas las novedades, noticias y lanzamientos de videojuegos en M\u00e9xico y Latinoam\u00e9rica.  An\u00e1lisis de las principales franquicias de juegos de celulares, PlayStation, Nintendo, Xbox y PC",
+    "url": "https://www.xataka.com.mx/categoria/videojuegos",
+    "keywords_s": [
+      "Videojuego",
+      "Categoria",
+      "Kenth",
+      "Xataka",
+      "Comentario",
+      "Autor",
+      "Juego",
+      "Mercado",
+      "Djuego"
+    ],
+    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
+  },
+  {
+    "id": "6646d4235492f",
+    "title": "Xataka Auto - Xataka M\u00e9xico",
+    "content": "Todas las noticias y an\u00e1lisis de autos, movilidad y transporte. Tecnolog\u00eda de autom\u00f3viles y medidas de circulaci\u00f3n vehicular",
+    "url": "https://www.xataka.com.mx/categoria/automovil",
+    "keywords_s": [
+      "Categoria",
+      "Xataka",
+      "Contingencia",
+      "Ambiental",
+      "Comentario",
+      "Autor",
+      "Autom",
+      "Circula"
+    ],
+    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
+  },
+  {
+    "id": "6646d423eb544",
+    "title": "Xataka Negocios - Xataka M\u00e9xico",
+    "content": "Xataka Negocios: Una mujer fue despedida tras trabajar tres d\u00edas: &quot;Las generaciones mayores pueden soportar ambientes t\u00f3xicos, nosotros no nos...",
+    "url": "https://www.xataka.com.mx/categoria/empresas-y-economia",
+    "keywords_s": [
+      "Xataka",
+      "Categoria",
+      "Comentario",
+      "Autor",
+      "Empresa",
+      "Dinero",
+      "Negocio",
+      "Steve",
+      "Mercado",
+      "Economia"
+    ],
+    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
+  },
+  {
+    "id": "6646d42490173",
     "title": "Gu\u00eda de compras - Xataka M\u00e9xico",
     "content": "Gu\u00eda de compras:Smartphones de hasta 15,000 pesos para el D\u00eda de las Madres 2024: 9 modelos recomendados y con relaci\u00f3n calidad-precio .D\u00eda del Ni\u00f1o 2024: estos...",
     "url": "https://www.xataka.com.mx/tag/guia-de-compras",
     "keywords_s": [
       "Ramirez",
       "Categoria",
-      "Mejor",
       "Seleccion",
+      "Mejor",
       "Xataka",
-      "Smartphon",
       "Selecci",
       "Comentario",
       "Autor"
@@ -73,7 +124,185 @@
     "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
   },
   {
-    "id": "66458cddc1f09",
+    "id": "6646d4252b7cf",
+    "title": "Hot Sale 2024: Amazon M\u00e9xico rebaja como nunca antes estos paquetes de Pok\u00e9mon TCG que con cup\u00f3n quedan a\u00fan m\u00e1s baratos",
+    "content": "Si eres una persona apasionada por el coleccionismo, te puede interesar que, por el Hot Sale 2024, la tienda Amazon M\u00e9xico est\u00e1 aplicando irresistibles...",
+    "url": "https://www.xataka.com.mx/seleccion/hot-sale-2024-amazon-mexico-rebaja-como-nunca-antes-estos-paquetes-pokemon-tcg-que-cupon-quedan-baratos",
+    "keywords_s": [
+      "Xataka",
+      "Mercado",
+      "Libre",
+      "Categoria",
+      "Djuego",
+      "Amazon",
+      "Descuento",
+      "Xiaomi",
+      "Mexico"
+    ],
+    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
+  },
+  {
+    "id": "6646d425c1e37",
+    "title": "Mercado Libre tiene el tel\u00e9fono plegable m\u00e1s barato del mercado: hasta por menos de 8,000 pesos y conectividad 5G",
+    "content": "Si todav\u00eda no compras algo en este Hot Sale 2024, quiz\u00e1 esta es la oferta que estabas esperando. Se trata del tel\u00e9fono plegable Nubia Flip 5G que ahora mismo...",
+    "url": "https://www.xataka.com.mx/seleccion/mercado-libre-tiene-telefono-plegable-barato-mercado-8-000-pesos-conectividad-5g",
+    "keywords_s": [
+      "Mercado",
+      "Xataka",
+      "Libre",
+      "Categoria",
+      "Djuego",
+      "Xiaomi",
+      "Videojuego",
+      "Mexico",
+      "Seleccion",
+      "Android",
+      "Precio",
+      "Descuento"
+    ],
+    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
+  },
+  {
+    "id": "6646d4267b1b4",
+    "title": "Esta laptop Huawei D14 es la oferta del d\u00eda en Mercado Libre y gracias al Hot Sale 2024 puedes obtener hasta 20% de descuento extra",
+    "content": "La ofertas del Hot Sale 2024 contin\u00faan, y ahora puedes conseguir esta laptop Huawei D14 ideal para estudiantes por solo 8,799 pesos. Pero adem\u00e1s con las...",
+    "url": "https://www.xataka.com.mx/seleccion/esta-laptop-huawei-d14-oferta-dia-mercado-libre-gracias-al-hot-sale-2024-puedes-obtener-20-descuento-extra",
+    "keywords_s": [
+      "Mercado",
+      "Xataka",
+      "Libre",
+      "Categoria",
+      "Djuego",
+      "Oferta",
+      "Xiaomi",
+      "Descuento",
+      "Huawei",
+      "Videojuego",
+      "Laptop"
+    ],
+    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
+  },
+  {
+    "id": "6646d4274a777",
+    "title": "\u00bfC\u00f3mo ser\u00eda un personaje mexicano de Dragon Ball Z? La inteligencia artificial imagina a los guerreros de diferentes pa\u00edses",
+    "content": "Las IA han llegado para quedarse. Dese Chatbots, asistencia virtual, creaci\u00f3n de im\u00e1genes, audios, res\u00famenes de texto o incluso imitaci\u00f3n de voz, las...",
+    "url": "https://www.xataka.com.mx/anime/como-seria-personaje-mexicano-dragon-ball-z-inteligencia-artificial-imagina-a-guerreros-diferentes-paises",
+    "keywords_s": [
+      "Xataka",
+      "Mercado",
+      "Categoria",
+      "Djuego",
+      "Libre",
+      "Mexico",
+      "Xiaomi",
+      "Videojuego",
+      "Mundo",
+      "Android",
+      "Inteligencia"
+    ],
+    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
+  },
+  {
+    "id": "6646d427dc1e9",
+    "title": "Exclusiva; viajes de Uber ser\u00e1n grabados en video en M\u00e9xico con ayuda de una c\u00e1mara omnipresente: la frontal de los celulares",
+    "content": "Primero fue la grabaci\u00f3n de audio en los viajes para proteger a los pasajeros. Ahora Uber tiene una nueva funci\u00f3n para hacer m\u00e1s seguros los trayectos de los...",
+    "url": "https://www.xataka.com.mx/aplicaciones/exclusiva-viajes-uber-seran-grabados-video-mexico-ayuda-camara-omnipresente-frontal-celulares",
+    "keywords_s": [
+      "Xataka",
+      "Mercado",
+      "Djuego",
+      "Categoria",
+      "Libre",
+      "Xiaomi",
+      "Videojuego",
+      "Conductor",
+      "Mexico"
+    ],
+    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
+  },
+  {
+    "id": "6646d42871c18",
+    "title": "Disney, Warner y Fox saben que el negocio del streaming son los deportes y crearon Venu Sports: ESPN, TNT Sports y Fox en una sola app",
+    "content": "Mayo pinta para ser un mes hist\u00f3rico en los servicios de streaming, iniciando con Disney y Warner uni\u00e9ndose para ofrecer un paquete con Disney+, Hulu y Max en...",
+    "url": "https://www.xataka.com.mx/streaming/disney-warner-fox-saben-que-negocio-streaming-deportes-crearon-venu-sports-espn-tnt-sports-fox-sola-app",
+    "keywords_s": [
+      "Xataka",
+      "M\u00e9xico",
+      "Mercado",
+      "Djuego",
+      "Categoria",
+      "Libre",
+      "Videojuego",
+      "Xiaomi",
+      "Mexico",
+      "Streaming",
+      "Mundo",
+      "Disney",
+      "Android",
+      "Mejor"
+    ],
+    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
+  },
+  {
+    "id": "6646d42901c51",
+    "title": "Tercer debate presidencial 2024, el \u00faltimo antes de las elecciones del 2 de junio: cu\u00e1ndo es y d\u00f3nde podr\u00e1 verse en vivo",
+    "content": "Las pr\u00f3ximas elecciones de M\u00e9xico ya est\u00e1n a la vuelta de la esquina. Este 2 de junio elegiremos al nuevo presidente o presidenta del pa\u00eds, pero antes, a\u00fan...",
+    "url": "https://www.xataka.com.mx/basics/tercer-debate-presidencial-2024-ultimo-antes-elecciones-2-junio-cuando-donde-podra-verse-vivo",
+    "keywords_s": [
+      "Xataka",
+      "Mercado",
+      "Djuego",
+      "Categoria",
+      "Libre",
+      "Xiaomi",
+      "Mexico",
+      "Videojuego",
+      "Presidencial"
+    ],
+    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
+  },
+  {
+    "id": "6646d4299adbb",
+    "title": "Hot Sale 2024: recopilaci\u00f3n de 31 bocinas inal\u00e1mbricas en Mercado Libre con brutales descuentos desde 170 pesos",
+    "content": "Con la llegada del Hot Sale 2024, varios productos han reducido su precio volvi\u00e9ndose alternativas m\u00e1s amigables con la cartera. Es por ello que hoy te...",
+    "url": "https://www.xataka.com.mx/seleccion/hot-sale-2024-recopilacion-31-bocinas-inalambricas-mercado-libre-brutales-descuentos-170-pesos",
+    "keywords_s": [
+      "Xataka",
+      "Mercado",
+      "Libre",
+      "Categoria",
+      "Djuego",
+      "Oferta",
+      "Bocina",
+      "Descuento",
+      "Xiaomi",
+      "Videojuego",
+      "Mexico",
+      "Seleccion"
+    ],
+    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
+  },
+  {
+    "id": "6646d42a4656d",
+    "title": "Ofertas - Xataka M\u00e9xico",
+    "content": "Ofertas:Metroid Prime Remastered para Nintendo Switch, en remate en Amazon: in\u00e9dito descuento de Hot Sale 2024 que lo deja en menos de 450 pesos.Mercado...",
+    "url": "https://www.xataka.com.mx/tag/ofertas",
+    "keywords_s": [
+      "Mercado",
+      "Categoria",
+      "Libre",
+      "Seleccion",
+      "Xataka",
+      "Amazon",
+      "Descuento",
+      "Selecci",
+      "Comentario",
+      "Autor"
+    ],
+    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
+  },
+  {
+    "id": "6646d42ad383d",
     "title": "Los mejores - Xataka M\u00e9xico",
     "content": "Los mejores:Amazon Prime Day 2021 en M\u00e9xico, las mejores ofertas y promociones de aud\u00edfonos.Amazon Prime Day 2021 en M\u00e9xico, las mejores ofertas y promociones...",
     "url": "https://www.xataka.com.mx/tag/los-mejores",
@@ -84,18 +313,18 @@
       "Herrera",
       "Xataka",
       "Amazon",
-      "Smartphon",
-      "Comentario",
       "Seleccion",
+      "Comentario",
       "Autor",
+      "Smartphon",
+      "Streaming",
       "Oferta",
-      "Android",
-      "Disney"
+      "Mercado"
     ],
     "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
   },
   {
-    "id": "66458cde5b427",
+    "id": "6646d42b5c74c",
     "title": "Cazando Gangas Mexico - Xataka M\u00e9xico",
     "content": "Cazando Gangas Mexico: Cazando Gangas M\u00e9xico especial del Hot Sale 2024: la mejores ofertas, promociones y descuentos del d\u00eda uno . Cazando Gangas...",
     "url": "https://www.xataka.com.mx/categoria/cazando-gangas-mexico",
@@ -110,361 +339,26 @@
       "Selecci",
       "Comentario",
       "Autor",
-      "Descuento"
+      "Mercado"
     ],
     "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
   },
   {
-    "id": "66458cdf0f700",
-    "title": "AirTag, m\u00e1s barato que nunca en Amazon M\u00e9xico por el Hot Sale 2024: as\u00ed puedes conseguir el rastreador de Apple por s\u00f3lo 324 pesos",
-    "content": "No es muy com\u00fan que productos de Apple tengan grandes promociones. Es por eso que no deja de sorprender que, por el Hot Sale 2024, Amazon M\u00e9xico est\u00e1...",
-    "url": "https://www.xataka.com.mx/seleccion/airtag-barato-que-nunca-amazon-mexico-hot-sale-2024-asi-puedes-conseguir-rastreador-apple-solo-324-pesos",
+    "id": "6646d42c0c3a8",
+    "title": "Nuevos refrigeradores, estufas y hornos Bespoke 2024: muchas pantallas y IA para los electrodom\u00e9sticos m\u00e1s inteligentes de Samsung",
+    "content": "Samsung ha decidido ampliar su portafolio de electrodom\u00e9sticos, pero integrando inteligencia artificial para ayudarte mientras cocinas o al almacenar tu...",
+    "url": "https://www.xataka.com.mx/home/nuevos-refrigeradores-estufas-hornos-bespoke-2024-muchas-pantallas-ia-para-electrodomesticos-inteligentes-samsung",
     "keywords_s": [
       "Xataka",
-      "Descuento",
-      "Amazon",
-      "Categoria",
-      "Djuego",
-      "Android",
-      "Apple",
-      "Mexico",
-      "Celular",
-      "Videojuego",
-      "Oferta"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458cdf9a196",
-    "title": "Ni Elon Musk se salva del Hot Sale 2024: Kit Starlink en Mercado Libre con m\u00e1s del 30% de descuento",
-    "content": "Desde su lanzamiento, Starlink logr\u00f3 posicionarse como una alternativa interesante para aquellas personas cuyo acceso a la red es limitado. Es por ello que te...",
-    "url": "https://www.xataka.com.mx/seleccion/elon-musk-se-salva-hot-sale-2024-kit-starlink-mercado-libre-30-descuento",
-    "keywords_s": [
-      "Xataka",
-      "Categoria",
-      "Djuego",
-      "Android",
       "Mercado",
+      "Bespoke",
+      "Categoria",
+      "Djuego",
       "Libre",
-      "Mexico",
-      "Descuento",
-      "Celular",
-      "Videojuego",
-      "Oferta",
-      "Xiaomi"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce0496f3",
-    "title": "Sony le gana la partida a Microsoft: PS5 envi\u00f3 casi cinco veces m\u00e1s consolas que Xbox Series en el primer trimestre, seg\u00fan reporte",
-    "content": "La &amp;quot;rivalidad&amp;quot; entre consolas ha estado presente casi desde los inicios de la misma, cuando Nintendo y SEGA encabezaban las ventas con sus dispositivos para...",
-    "url": "https://www.xataka.com.mx/videojuegos/sony-le-gana-partida-a-microsoft-ps5-vence-casi-cinco-veces-que-xbox-series-primer-trimestre-reporte",
-    "keywords_s": [
-      "Xataka",
-      "Videojuego",
-      "Categoria",
-      "Djuego",
-      "Android",
-      "Mexico",
-      "Celular",
-      "Nintendo",
-      "Ahora"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce131c00",
-    "title": "Hot Sale 2024: 25 juegos exclusivos de Nintendo Switch que puedes comprar desde 500 pesos en Amazon M\u00e9xico",
-    "content": "Las ofertas del Hot Sale 2024 apenas comienzan y Amazon M\u00e9xico ya est\u00e1 tirando la casa por la ventana. Entre las m\u00e1s destacadas, figuran las que tienen estos...",
-    "url": "https://www.xataka.com.mx/seleccion/hot-sale-2024-25-juegos-exclusivos-nintendo-switch-que-puedes-comprar-500-pesos-amazon-mexico",
-    "keywords_s": [
-      "Xataka",
-      "Descuento",
-      "Amazon",
-      "Categoria",
-      "Djuego",
-      "Android",
-      "Mexico",
-      "Videojuego",
-      "Oferta",
-      "Celular",
-      "Nintendo"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce1bcdec",
-    "title": "Microsoft no quiere que los juegos de Xbox sean exclusivos por mucho tiempo antes de llegar a PlayStation o Nintendo, seg\u00fan reporte",
-    "content": "Recientemente han abundado los rumores sobre que los pr\u00f3ximos juegos de Xbox Studios dejar\u00e1n de ser exclusivos y optar\u00e1n por debutar en consolas de la...",
-    "url": "https://www.xataka.com.mx/videojuegos/microsoft-no-quiere-que-juegos-xbox-sean-exclusivos-mucho-tiempo-antes-llegar-a-playstation-nintendo-reporte",
-    "keywords_s": [
-      "Xataka",
-      "Videojuego",
-      "Categoria",
-      "Djuego",
-      "Android",
-      "Nintendo",
-      "Mexico",
-      "Celular",
-      "Microsoft"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce26fb9c",
-    "title": "Xataka Gaming - Noticias, lanzamientos y an\u00e1lisis de juegos - Xataka M\u00e9xico",
-    "content": "Todas las novedades, noticias y lanzamientos de videojuegos en M\u00e9xico y Latinoam\u00e9rica.  An\u00e1lisis de las principales franquicias de juegos de celulares, PlayStation, Nintendo, Xbox y PC",
-    "url": "https://www.xataka.com.mx/categoria/videojuegos",
-    "keywords_s": [
-      "Videojuego",
-      "Categoria",
-      "Xataka",
-      "Kenth",
-      "Juego",
-      "Comentario",
-      "Autor",
-      "Nintendo",
-      "Android"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce308278",
-    "title": "PlayStation - Xataka M\u00e9xico",
-    "content": "PlayStation:Microsoft no quiere que los juegos de Xbox sean exclusivos por mucho tiempo antes de llegar a PlayStation o Nintendo, seg\u00fan reporte .Sony hace...",
-    "url": "https://www.xataka.com.mx/tag/playstation",
-    "keywords_s": [
-      "Videojuego",
-      "Categoria",
-      "Playstation",
-      "Xataka",
-      "Kenth",
-      "Autor",
-      "Comentario",
-      "Amazon",
-      "Juego",
-      "Android"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce39348a",
-    "title": "Xbox - Xataka M\u00e9xico",
-    "content": "Xbox:Microsoft no quiere que los juegos de Xbox sean exclusivos por mucho tiempo antes de llegar a PlayStation o Nintendo, seg\u00fan reporte .&amp;quot;Gracias a...",
-    "url": "https://www.xataka.com.mx/tag/xbox",
-    "keywords_s": [
-      "Videojuego",
-      "Categoria",
-      "Kenth",
-      "Xataka",
-      "Comentario",
-      "Autor",
-      "Android",
-      "Juego"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce4316de",
-    "title": "Nintendo - Xataka M\u00e9xico",
-    "content": "Nintendo:Microsoft no quiere que los juegos de Xbox sean exclusivos por mucho tiempo antes de llegar a PlayStation o Nintendo, seg\u00fan reporte...",
-    "url": "Https://www.xataka.com.mx/tag/nintendo",
-    "keywords_s": [
-      "Nintendo",
-      "Videojuego",
-      "Categoria",
-      "Switch",
-      "Xataka",
-      "Kenth",
-      "Comentario",
-      "Autor",
-      "Android"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce4c3078",
-    "title": "Esta laptop gamer cuesta mucho menos de 15,000 pesos por el Hot Sale 2024: Ryzen, 16 GB de RAM, 512 GB en SSD y AMD Radeon 680M",
-    "content": "Si quer\u00edan una laptop poderosa para renders y dem\u00e1s, pero tu presupuesto no rebasaba los 15,000 pesos, Mercado Libre tiene la respuesta. Se trata de la laptop...",
-    "url": "https://www.xataka.com.mx/seleccion/esta-laptop-gamer-cuesta-mucho-15-000-pesos-hot-sale-2024-ryzen-16-gb-ram-512-gb-ssd-amd-radeon-680m",
-    "keywords_s": [
-      "M\u00e9xico",
-      "Xataka",
-      "Descuento",
-      "Categoria",
-      "Djuego",
-      "Android",
-      "Mexico",
-      "Celular",
-      "Videojuego",
-      "Oferta",
-      "Amazon",
-      "Seleccion",
-      "Smartphon"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce556c33",
-    "title": "Xataka Auto - Xataka M\u00e9xico",
-    "content": "Todas las noticias y an\u00e1lisis de autos, movilidad y transporte. Tecnolog\u00eda de autom\u00f3viles y medidas de circulaci\u00f3n vehicular",
-    "url": "https://www.xataka.com.mx/categoria/automovil",
-    "keywords_s": [
-      "Categoria",
-      "Xataka",
-      "Circula",
-      "Contingencia",
-      "Ambiental",
-      "Autom",
-      "Automovil",
-      "Comentario",
-      "Autor"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce631ed3",
-    "title": "Tesla - Xataka M\u00e9xico",
-    "content": "Tesla:Hay arrestos en f\u00e1brica de Tesla: las protestas contra Elon Musk y su gigafactory cada vez se vuelven m\u00e1s violentas .El Tesla Model Y tiene un...",
-    "url": "https://www.xataka.com.mx/tag/tesla",
-    "keywords_s": [
-      "Tesla",
-      "Categoria",
-      "Adolfo",
-      "Xataka",
-      "Autom",
-      "Automovil",
-      "Comentario",
-      "Autor"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce6be628",
-    "title": "Uber - Xataka M\u00e9xico",
-    "content": "Uber:Uber tiene una soluci\u00f3n para evitar sus tarifas din\u00e1micas despu\u00e9s de un concierto o un partido: rentarte un asiento en un autob\u00fas...",
-    "url": "https://www.xataka.com.mx/tag/uber",
-    "keywords_s": [
-      "Categoria",
-      "Xataka",
-      "Aplicaci\u00f3n",
-      "Comentario",
-      "Autor",
-      "Steve",
-      "Android"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce754fc7",
-    "title": "Auto El\u00e9ctrico - Xataka M\u00e9xico",
-    "content": "Auto El\u00e9ctrico:Cada vez se vende menos gasolina en el mundo y el culpable es uno del que hablamos todos los d\u00edas: los autos el\u00e9ctricos .Manej\u00e9 el MG4: es...",
-    "url": "https://www.xataka.com.mx/tag/auto-electrico",
-    "keywords_s": [
-      "Adolfo",
-      "Categoria",
-      "Ctrico",
-      "Tesla",
-      "Xataka",
-      "Autom",
-      "Automovil",
-      "Comentario",
-      "Autor"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce7de206",
-    "title": "Xataka Negocios - Xataka M\u00e9xico",
-    "content": "Xataka Negocios: Nu vuelve a regalar 15% en inversi\u00f3n, pero con una condici\u00f3n: as\u00ed son las nuevas cajitas congeladas en M\u00e9xico. Nu baja vuelve a...",
-    "url": "https://www.xataka.com.mx/categoria/empresas-y-economia",
-    "keywords_s": [
-      "Xataka",
-      "Categoria",
-      "Dinero",
-      "Comentario",
-      "Autor",
-      "Empresa",
-      "Steve",
-      "Negocio",
-      "Android",
-      "Economia"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce89a3c4",
-    "title": "Cazando Gangas M\u00e9xico especial del Hot Sale 2024: la mejores ofertas, promociones y descuentos del d\u00eda uno",
-    "content": "Por fin ha llegado el Hot Sale 2024, la temporada de promociones y descuentos en M\u00e9xico exclusivos por internet. Desde Xataka Selecci\u00f3n tendremos la mejor...",
-    "url": "https://www.xataka.com.mx/seleccion/cazando-gangas-mexico-especial-hot-sale-2024-mejores-ofertas-promociones-descuentos-dia-uno",
-    "keywords_s": [
-      "Pulgada",
-      "Oferta",
-      "Promoci\u00f3n",
-      "Xataka",
-      "Amazon",
-      "Categoria",
-      "Android",
-      "Descuento",
-      "Xiaomi"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce930e05",
-    "title": "Primeras im\u00e1genes de The Last of Us temporada 2: Joel y Ellie vuelven para la continuaci\u00f3n de una historia brutal",
-    "content": "La segunda temporada de la serie The Last of Us a\u00fan est\u00e1 lejos de llegar al streaming, pero Warner Bros. ya ha revelado sus primeras im\u00e1genes. Aqu\u00ed, tenemos...",
-    "url": "https://www.xataka.com.mx/streaming/primeras-imagenes-the-last-of-us-temporada-2-joel-ellie-vuelven-para-continuacion-historia-brutal",
-    "keywords_s": [
-      "Xataka",
-      "Djuego",
-      "Android",
-      "Categoria",
-      "Mexico",
-      "Celular",
-      "Videojuego",
-      "Smartphon",
       "Xiaomi",
-      "Descuento",
-      "Amazon"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458ce9d91c4",
-    "title": "Entre ir contra China e ir contra el cambio clim\u00e1tico, Estados Unidos acaba de decidir lo que todos pensamos que har\u00eda",
-    "content": "Lo nuevo de Estados Unidos es un golpe frontal a China y tiene potencial seguir escalando r\u00e1pidamente: EUA ha incrementado a 100% los aranceles a autos...",
-    "url": "https://www.xataka.com.mx/politica/eua-tenia-que-decidir-subir-impuestos-a-autos-electricos-china-luchar-cambio-climatico-todos-sabemos-resultado",
-    "keywords_s": [
-      "Xataka",
-      "China",
-      "Categoria",
-      "Unido",
-      "Djuego",
-      "Android",
-      "Ctrico",
-      "Mexico",
-      "Celular",
-      "Videojuego"
-    ],
-    "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
-  },
-  {
-    "id": "66458cea7776c",
-    "title": "BYD Shark llega a M\u00e9xico: 840 kil\u00f3metros de autonom\u00eda, conducci\u00f3n aut\u00f3noma y funci\u00f3n de karaoke precio y lanzamiento",
-    "content": "En un movimiento audaz, la reconocida automotriz china BYD lanz\u00f3 desde M\u00e9xico su primer pick-up a nivel mundial. Se trata del Shark y est\u00e1 destinado a...",
-    "url": "https://www.xataka.com.mx/automovil/byd-shark-llega-a-mexico-840-kilometros-autonomia-conduccion-autonoma-funcion-karaoke-precio-lanzamiento",
-    "keywords_s": [
-      "Xataka",
-      "Mexico",
-      "Categoria",
-      "Shark",
-      "Djuego",
-      "Android",
-      "Celular",
+      "Refrigerador",
       "Videojuego",
-      "Automotriz"
+      "Samsung"
     ],
     "icon": "https://img.weblogssl.com/css/xatakamexico/p/common/favicon.ico"
   }

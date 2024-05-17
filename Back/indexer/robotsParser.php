@@ -23,7 +23,7 @@ class RobotsParser{
     }
 
     private function parse(string $url): void{
-        $content = file_get_contents($url, context: utils::getContex());
+        $content = utils::getUrlContents($url);
         $lines = explode("\n", $content);
         $rules = [];
         $currentUser = "*";
