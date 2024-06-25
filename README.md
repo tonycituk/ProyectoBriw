@@ -1,5 +1,4 @@
 # ProyectoBRIW
-# ProyectoBRIW
 
 
 Para poder ejecutar el frontEnd necesitas  instalar
