@@ -24,7 +24,7 @@ function App() {
   const [resultados, setResultados] = useState(initRes);
   const [facetas, setFacetas] = useState([""]);
   const [lastQuery, setLastQuery] = useState("");
-  const baseUrl = window.location.origin;
+  //const baseUrl = window.location.origin;
   const endpoint = "/ProyectoBRIW/Back/search.php";
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState<FileList | null>(null);
