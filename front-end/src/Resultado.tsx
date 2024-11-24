@@ -49,14 +49,14 @@ function ResultadoBusqueda({ titulo, snippet, logo, url }) {
           (snippet == "Archivo subido por el usuario")? "hidden" : "btn"
         } onClick={() => {
           setTituloModal(titulo);
-          setLinkModal("http://localhost/BRIW/ProyectoBRIW/Back/Screenshot.php?link=" + {url});
+          setLinkModal(`${import.meta.env.VITE_BASE_URL}/Screenshot.php?link=${url}`);
           setShowPreview(true);
           }}>Previsualizar página</button>
           {showPreview && (
           //Elemento Modal
           <ModalScreenshot 
             titulo = {titulo} 
-            link = {"http://localhost/BRIW/ProyectoBRIW/Back/Screenshot.php?link=" + url}
+            link = {`${import.meta.env.VITE_BASE_URL}/Screenshot.php?link=${url}`}
             closeModal = {modalHandler}
             >
           </ModalScreenshot>
