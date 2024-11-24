@@ -3,10 +3,6 @@ services:
     build:
       context: ./solr
       dockerfile: Dockerfile
-      # Deshabilitar caché durante la construcción
-      args:
-        - DOCKER_BUILDKIT=1
-        - BUILDKIT_INLINE_CACHE=0
     container_name: solr
     ports:
       - "8983:8983"
@@ -24,6 +20,17 @@ services:
     networks:
       app_network:
         ipv4_address: 10.10.10.3
+
+  php-webserver:
+    build:
+      context: ./Back
+      dockerfile: Dockerfile
+    container_name: back
+    ports:
+      - "8080:80"
+    networks:
+      app_network:
+        ipv4_address: 10.10.10.4
 
 networks:
   app_network:
