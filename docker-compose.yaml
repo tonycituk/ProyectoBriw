@@ -3,6 +3,10 @@ services:
     build:
       context: ./solr
       dockerfile: Dockerfile
+      # Deshabilitar caché durante la construcción
+      args:
+        - DOCKER_BUILDKIT=1
+        - BUILDKIT_INLINE_CACHE=0
     container_name: solr
     ports:
       - "8983:8983"
