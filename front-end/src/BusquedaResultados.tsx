@@ -27,7 +27,6 @@ function BusquedaResultados() {
     setLoading(true);
     setError(null);
   
-    const baseurl = "http://localhost:8983/solr/ProyectoFinal/select";
     const rows = 30;
   
     // Construir la consulta de búsqueda manualmente
@@ -50,9 +49,8 @@ function BusquedaResultados() {
       .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
       .join('&');
   
-    const url = `${baseurl}?${queryString}`;
   
-    fetch(url, {
+    fetch(`${import.meta.env.VITE_SOLR_URL}/select?${queryString}`, {
       mode: 'no-cors'
     })
       .then(response => {

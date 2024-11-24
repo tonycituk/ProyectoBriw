@@ -6,3 +6,35 @@ services:
     container_name: solr
     ports:
       - "8983:8983"
+    networks:
+      app_network:
+        ipv4_address: 10.10.10.2
+
+  front:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    container_name: front
+    ports:
+      - "80:80"
+    networks:
+      app_network:
+        ipv4_address: 10.10.10.3
+
+  php-webserver:
+    build:
+      context: ./Back
+      dockerfile: Dockerfile
+    container_name: back
+    ports:
+      - "8080:80"
+    networks:
+      app_network:
+        ipv4_address: 10.10.10.4
+
+networks:
+  app_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.10.0/24

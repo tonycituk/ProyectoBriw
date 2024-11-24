@@ -150,9 +150,8 @@ function App() {
       });
       console.log(Array.from(formData.keys()).length);
       try {
-        const subirpdfLink = "http://localhost/BRIW/ProyectoBRIW/back/subirPDF.php";
         // You can write the URL of your server or any other endpoint used for file upload
-        const result = await fetch(subirpdfLink, {
+        const result = await fetch(`${import.meta.env.VITE_BASE_URL}/subirPDF.php`, {
           method: "POST",
           body: formData,
         }).then((response) => {
@@ -303,11 +302,9 @@ function App() {
   );
 }
 
-const backLink = "http://localhost/BRIW/ProyectoBRIW/Back/search.php";
 async function obtenerResultados(busqueda: string) {
-  //const response = await fetch(`https://api.chucknorris.io/jokes/search?query=${busqueda}`);
   const response = await fetch(
-    `http://localhost/BRIW/ProyectoBRIW/Back/search.php?q=${busqueda}`
+    `${import.meta.env.VITE_BASE_URL}/search.php?q=${busqueda}`
   );
   if (!response.ok) {
     throw new Error("Error fetching");
@@ -317,7 +314,7 @@ async function obtenerResultados(busqueda: string) {
 }
 
 async function fetchDataFromPHP(busqueda: string) {
-  const response = await fetch(`${backLink}?q=${busqueda}`);
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/search.php?q=${busqueda}`);
   if (!response.ok) {
     throw new Error("Error fetching");
   }
@@ -326,8 +323,7 @@ async function fetchDataFromPHP(busqueda: string) {
 }
 
 async function fetchDataFromPHPWithFaceta(lastQuery: string, faceta: string) {
-  //const response = await fetch(`https://api.chucknorris.io/jokes/search?query=${busqueda}`);
-  const response = await fetch(`${backLink}?q=${lastQuery}&f=${faceta}`);
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/search.php?q=${lastQuery}&f=${faceta}`);
   if (!response.ok) {
     throw new Error("Error fetching");
   }
