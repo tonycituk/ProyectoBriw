@@ -1,5 +1,5 @@
 <?php
-require '../../vendor/autoload.php';
+require '../vendor/autoload.php';
 use ICanBoogie\Inflector;
 use voku\helper\StopWords;
 class utils{
