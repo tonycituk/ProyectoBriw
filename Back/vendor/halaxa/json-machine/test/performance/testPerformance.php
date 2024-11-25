@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use JsonMachine\Items;
 
-require_once __DIR__.'/../../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 if ( ! ini_get('xdebug.mode')) {
     echo "Xdebug disabled\n";

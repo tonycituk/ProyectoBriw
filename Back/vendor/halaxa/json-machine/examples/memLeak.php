@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use JsonMachine\Items;
 
-require_once __DIR__.'/../../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 ini_set('memory_limit', 128 * 1024 * 1024);
 

@@ -31,7 +31,7 @@ echo "</pre>";
 </html>
 
 <?php
-require '../vendor/autoload.php';
+require '/vendor/autoload.php';
 if(!(isset($_FILES["archivos"]) && !empty($_FILES["archivos"]["name"][0]))){
   return;
 }
