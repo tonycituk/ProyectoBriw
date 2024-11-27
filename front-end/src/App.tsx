@@ -151,7 +151,7 @@ function App() {
       console.log(Array.from(formData.keys()).length);
       try {
         // You can write the URL of your server or any other endpoint used for file upload
-        const result = await fetch(`${import.meta.env.VITE_BASE_URL}/subirPDF.php`, {
+        const result = await fetch(`${import.meta.env.VITE_BASE_URL}/subirpdf.php`, {
           method: "POST",
           body: formData,
         }).then((response) => {

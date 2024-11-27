@@ -1,47 +1,17 @@
-<!DOCTYPE html>
-<html>
-<body>
-<a href="../Front/index.html">Atras</a>
-<form action="subirPDF.php" method="post" enctype="multipart/form-data">
- <h2> Subir PDF</h2> <br>
-  <input type="file" name="archivos[]" accept="file/txt" multiple>
-  <br>
-  <br>
-  <input type="submit" value="Subir archivos" name="subir">
-</form>
-
 <?php
+require './vendor/autoload.php';
+
+include("http.php");
+include("parse.php");
+include("addresses.php");
+include("httpCodes.php");
+include("config.php");
 
 header('Access-Control-Allow-Origin: *');
 
 if(!(isset($_FILES["archivos"]) && !empty($_FILES["archivos"]["name"][0]))){
    return;
 }
-
-//Quitar cuando se termine
-/*
-echo '<pre>';
-echo var_dump($_FILES["archivos"]);
-echo "</pre>";
-*/
-//--------
-
-?>
-</body>
-</html>
-
-<?php
-require '/vendor/autoload.php';
-if(!(isset($_FILES["archivos"]) && !empty($_FILES["archivos"]["name"][0]))){
-  return;
-}
-
-$server = 'localhost/BRIW/ProyectoBRIW/Back/';
-$directorio = 'archivos/';
-$archivos = guardarArchivos($directorio);
-
-indexarArchivos($archivos, $directorio);
-echo "Archivos indexados";
 
 function guardarArchivos($directorio){
   $archivos = [];
@@ -91,16 +61,14 @@ function indexarArchivos($archivos){
 }
 
 }
-include("../Back/http.php");
-include("../Back/parse.php");
-include("../Back/addresses.php");
-include("../Back/httpCodes.php");
+
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
 function indexarPDF($datos)
     {
-        $solrUrl = 'http://localhost:8983/solr/ProyectoFinal/update/?commit=true';
+        $solrUrl = "http://$SOLR_URL/solr/ProyectoFinal/update/?commit=true";
         echo "<pre>";
         //var_dump($datos);
         echo "</pre>";
@@ -195,4 +163,11 @@ function lenguaje($contenido){
 function limpiar($var) {
   return strtolower(preg_replace('/\s+/', ' ', preg_replace('/[^a-zA-ZáéíóúüÁÉÍÓÚÜñÑ\s]+/u', '', $var)));
 }
+
+$server = "$BASE_URL/";
+$directorio = 'archivos/';
+$archivos = guardarArchivos($directorio);
+
+indexarArchivos($archivos, $directorio);
+echo "Archivos indexados";
 ?>
