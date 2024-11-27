@@ -32,6 +32,17 @@ services:
       app_network:
         ipv4_address: 10.10.10.4
 
+  api:
+    build:
+      context: ./api-gen-archivos
+      dockerfile: Dockerfile
+    container_name: api-gen-archivos
+    ports:
+      - "3000:3000"
+    networks:
+      app_network:
+        ipv4_address: 10.10.10.5
+
 networks:
   app_network:
     driver: bridge
