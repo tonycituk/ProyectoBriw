@@ -13,6 +13,10 @@ RUN npm install
 # Copia todo el código fuente al contenedor
 COPY . .
 
+ENV SOLR_HOST=10.10.10.2
+ENV SOLR_PORT=8983
+ENV SOLR_CORE=ProyectoFinal
+
 # Construye la aplicación
 RUN npm run build
 
@@ -26,8 +30,6 @@ WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 
-# Establece la variable de entorno de producción
-ENV NODE_ENV=production
 
 # Expone el puerto que utiliza la aplicación
 EXPOSE 3000

@@ -6,9 +6,11 @@ import { GenerateFilesService } from './generate-files.service';
 export class GenerateFilesController {
   constructor(private readonly generateFilesService: GenerateFilesService) {}
 
-
+  @Get('xlsx')
+  async generateExcel() {
+    await this.generateFilesService.createExcel();
+  }
   
-
   @Get('pdf')
   async generatePdf(@Res() response: Response) {
     await this.generateFilesService.createPdf(response);
