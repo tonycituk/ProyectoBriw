@@ -1,4 +1,5 @@
 <?php
+include "../config.php"
 require '../vendor/autoload.php';
 use ICanBoogie\Inflector;
 use voku\helper\StopWords;
@@ -181,7 +182,7 @@ class utils{
 
     public static function indexContentToSolr(string $path)
     {
-        $url = 'http://localhost:8983/solr/ProyectoFinal/update/?commit=true';
+        $url = "http://$SOLR_URL/solr/ProyectoFinal/update/?commit=true";
         
         // Leer el contenido del archivo
         $lines = fopen($path, "r");
