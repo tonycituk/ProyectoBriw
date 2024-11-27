@@ -1,4 +1,5 @@
 <?php
+include "config.php";
 include "consulta.php";
 //"facet.field" => 'title',
 //"facet.contains" => $_GET['q'],
@@ -11,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $faceta = $_GET['f'] ?? '';
     $f = $_GET['f'] ?? '';
     if (!empty($query)) {
-        $baseurl = "http://localhost:8983/solr/ProyectoFinal/select";
+        $baseurl = "http://$SOLR_URL/solr/ProyectoFinal/select";
         $rows = 100;
         $start = $_GET['start'] ?? 0;
         if (!empty($faceta)) {
