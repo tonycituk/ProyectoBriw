@@ -1,60 +1,92 @@
 <?php
 include "consulta.php";
-include "config.php";
-
-header("Access-Control-Allow-Origin: *");
-header('Content-Type: application/json; charset=utf-8');
+//"facet.field" => 'title',
+//"facet.contains" => $_GET['q'],
+ header("Access-Control-Allow-Origin: *");
+ header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $query = $_GET['q'] ?? '';
     $query = consulta::prepararConsulta($query);
     $faceta = $_GET['f'] ?? '';
-    $rows = 100;
-    $start = $_GET['start'] ?? 0;
+    $f = $_GET['f'] ?? '';
+    if (!empty($query)) {
+        $baseurl = "http://localhost:8983/solr/ProyectoFinal/select";
+        $rows = 100;
+        $start = $_GET['start'] ?? 0;
+        if (!empty($faceta)) {
+            $faceta = "AND keywords_s:$faceta";
+        }
+        $mensaje = [
+            "defType" => "lucene",
+            "facet.field" => 'title',
+            "facet.contains" => $f,
+            "facet.contains.ignoreCase"=>'true',
+            "fq"=>"title:*$f*",
+            'facet.sort' => 'count',
+            'facet' => 'true',
+            'indent' => 'true',
+            'q.op' => 'OR',
+            'q' => "(title:($query) OR content:($query) OR keywords_s:($query) ) ",
+            'start' => 0,
+            'rows' => $rows,
+            'sort' => 'score desc',
+            'sw' => 'true',
+            'useParams' => ''
+        ];
+        $resultado = apiMensaje($baseurl, $mensaje);
+        //echo json_encode($resultado);
+        // Obtener las URLs de las páginas
+        $facets = $resultado["facet_counts"]["facet_fields"]['title'];
+        //$resultado = $resultado["response"]['docs'];
+        $urls = [];
+        foreach ($resultado["response"]['docs'] as $pagina) {
+            $urls[] = $pagina["url"][0];
+        }
+        $index = 0;
+        // Dividir las URLs en lotes para procesamiento en paralelo
+        $batch_size = 30;
+        $batches = array_chunk($urls, $batch_size);
 
-    $baseurl = "http://$SOLR_URL/solr/ProyectoFinal/select";
+        // Array para almacenar los resultados finales en formato JSON
+        $json_results = ['results' => []];
 
-    $mensaje = [
-        "defType" => "lucene",
-        "facet.field" => 'title',
-        "facet.contains" => $faceta,
-        "facet.contains.ignoreCase" => 'true',
-        "fq" => "title:*$faceta*",
-        'facet.sort' => 'count',
-        'facet' => 'true',
-        'indent' => 'true',
-        'q.op' => 'OR',
-        'q' => "(title:($query) OR content:($query) OR keywords_s:($query))",
-        'start' => $start,
-        'rows' => $rows,
-        'sort' => 'score desc'
-    ];
+        foreach ($resultado["response"]['docs'] as $pagina) {
+                // Obtener el título de la página
+                $title = isset($pagina["title"][0]) ? $pagina["title"][0] : '';
+                $snippet = isset($pagina["content"][0]) ? $pagina["content"][0] : '';
+                $title = isset($pagina["title"][0]) ? $pagina["title"][0] : '';
+                // Obtener el contenido del snippet
+                // URL del logo (icono)
+                $logo = isset($pagina["icon"][0]) ? $pagina["icon"][0] : '';
+                $url = isset($pagina["url"][0]) ? $pagina["url"][0] : '';
+                // Construir el resultado para esta página en formato JSON
+                $json_results['results'][] = [
+                    'index' => (string) $index,
+                    'value' => $title,
+                    'id' => $pagina["content"],
+                    'icon_url' => $pagina["icon"],
+                    'url' => $url
+                ];
+                $index++;
+            
+        }
 
-    $resultado = apiMensaje($baseurl, $mensaje);
 
-    if (!$resultado || !isset($resultado["response"]['docs'])) {
-        echo json_encode(["results" => [], "categories" => null]);
+        // Agregar las facetas al resultado final
+        if(!$index == 0){
+            $json_results["categories"] = $facets;
+        }else{
+            $json_results["categories"]  = null;
+        }
+
+        // Convertir el array de resultados en JSON y enviar como respuesta
+       //echo $json_results;
+        echo json_encode($json_results);
         exit();
     }
-
-    $json_results = ['results' => []];
-    $facets = $resultado["facet_counts"]["facet_fields"]['title'] ?? [];
-
-    foreach ($resultado["response"]['docs'] as $index => $pagina) {
-        $json_results['results'][] = [
-            'index' => (string) $index,
-            'value' => $pagina["title"][0] ?? '',
-            'id' => $pagina["content"][0] ?? '',
-            'icon_url' => $pagina["icon"][0] ?? '',
-            'url' => $pagina["url"][0] ?? ''
-        ];
-    }
-
-    $json_results["categories"] = !empty($facets) ? $facets : null;
-
-    echo json_encode($json_results);
-    exit();
 }
+
 
 function apiMensaje($url, $parametros)
 {
@@ -62,11 +94,8 @@ function apiMensaje($url, $parametros)
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $output = curl_exec($ch);
-
-    if (curl_errno($ch)) {
-        return null;
-    }
-
     curl_close($ch);
-    return json_decode($output, true);
+    $result = json_decode($output, true);
+    return $result;
 }
+
