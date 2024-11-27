@@ -9,6 +9,11 @@ include("config.php");
 
 header('Access-Control-Allow-Origin: *');
 
+$server = "$BASE_URL/";
+$directorio = 'archivos/';
+$archivos = guardarArchivos($directorio);
+$solrUrl = "http://$SOLR_URL/solr/ProyectoFinal/update/?commit=true";
+
 if(!(isset($_FILES["archivos"]) && !empty($_FILES["archivos"]["name"][0]))){
    return;
 }
@@ -57,7 +62,8 @@ function indexarArchivos($archivos){
         'language'=> lenguaje($contenido)
     ];
     var_dump($datos);
-    indexarPDF($datos);
+    $index = indexarPDF($datos);
+    echo "$index";
 }
 
 }
@@ -68,7 +74,7 @@ use GuzzleHttp\Exception\RequestException;
 
 function indexarPDF($datos)
     {
-        $solrUrl = "http://$SOLR_URL/solr/ProyectoFinal/update/?commit=true";
+        global $solrUrl;
         echo "<pre>";
         //var_dump($datos);
         echo "</pre>";
@@ -164,9 +170,6 @@ function limpiar($var) {
   return strtolower(preg_replace('/\s+/', ' ', preg_replace('/[^a-zA-ZáéíóúüÁÉÍÓÚÜñÑ\s]+/u', '', $var)));
 }
 
-$server = "$BASE_URL/";
-$directorio = 'archivos/';
-$archivos = guardarArchivos($directorio);
 
 indexarArchivos($archivos, $directorio);
 echo "Archivos indexados";
