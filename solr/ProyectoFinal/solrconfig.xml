@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--
+
+<!-- Hola soy pat, esta es mi configuracion
  Licensed to the Apache Software Foundation (ASF) under one or more
  contributor license agreements.  See the NOTICE file distributed with
  this work for additional information regarding copyright ownership.
@@ -900,12 +901,13 @@
   <searchComponent name="suggest" class="solr.SuggestComponent">
     <lst name="suggester">
       <str name="name">mySuggester</str>
-      <str name="lookupImpl">FuzzyLookupFactory</str>
+      <str name="lookupImpl">FreeTextLookupFactory</str>
+      <str name="suggestFreeTextAnalyzerFieldType">string</str>
       <str name="dictionaryImpl">DocumentDictionaryFactory</str>
-      <str name="field">cat</str>
-      <str name="weightField">price</str>
+      <str name="field">title_str</str>
+      <str name="weightField">pesoFalso</str>
       <str name="suggestAnalyzerFieldType">string</str>
-      <str name="buildOnStartup">false</str>
+      <str name="buildOnStartup">true</str>
     </lst>
   </searchComponent>
 
