@@ -18,56 +18,74 @@ if(!(isset($_FILES["archivos"]) && !empty($_FILES["archivos"]["name"][0]))){
    return;
 }
 
-function guardarArchivos($directorio){
-  $archivos = [];
-  $cantidad = sizeof($_FILES["archivos"]["name"]);
-  for($i =0; $i<$cantidad; $i++){
-    
-    $nombre = nombreArchivo( $_FILES["archivos"]["name"][$i]);
-    echo $nombre;
-    if($_FILES["archivos"]["type"][$i]!=="application/pdf"){
-      echo "No es un archivo pdf";
-      return;
+function guardarArchivos($directorio) {
+    $archivos = [];
+    $cantidad = sizeof($_FILES["archivos"]["name"]);
+    for ($i = 0; $i < $cantidad; $i++) {
+        $nombre = $_FILES["archivos"]["name"][$i];
+        echo $nombre;
+        
+        if ($_FILES["archivos"]["type"][$i] !== "application/pdf") {
+            echo "No es un archivo pdf";
+            return;
+        }
+        
+        move_uploaded_file($_FILES["archivos"]["tmp_name"][$i], $directorio . $nombre);
+        $archivos[] = $nombre;
     }
-    move_uploaded_file($_FILES["archivos"]["tmp_name"][$i],$directorio.$nombre);
-    $archivos[] = $nombre;
-  }
-  return $archivos;
+    return $archivos;
 }
 
-function indexarArchivos($archivos){
-  //$invertedIndex = [];
-  global $server;
-  global $directorio;
-  foreach($archivos as $archivo){
 
-    $parser = new Smalot\PdfParser\Parser();
-    $pdf = $parser->parseFile($directorio.$archivo);
-    $contenido = $pdf->getText();
-    
+function indexarArchivos($archivos, $directorio) {
+    foreach ($archivos as $archivo) {
+        echo "Archivo: $archivo\n";
+        echo "Directorio: $directorio\n";
+        // Ruta completa al archivo en la carpeta local
+        $rutaArchivo = $directorio . $archivo;
+        echo "Ruta archivo: $rutaArchivo\n";
 
-    if($contenido === false) die('Unable to read file: ' . $archivo);
-    $contenido  = limpiar($contenido);
-    //echo $contenido;
 
-    $url = "http://$server$directorio$archivo";
-    $nombre = $archivo;
-    $datos= [
-        'id' => uniqid(),
-        'title'=> $nombre,
-        'content'=> "Archivo subido por el usuario",
-        'url' => $url,
-        'keywords_s'=> palabrasClave($contenido, 20),
-        'icon'=> "./pdf.svg",
-        'language'=> lenguaje($contenido)
-    ];
-    var_dump($datos);
-    $index = indexarPDF($datos);
-    echo "$index";
+        // Verificar si el archivo existe
+        if (!file_exists($rutaArchivo)) {
+            echo "El archivo $archivo no existe en el directorio especificado.\n";
+            continue;
+        }
+
+        // Leer el archivo PDF
+        $parser = new Smalot\PdfParser\Parser();
+        $pdf = $parser->parseFile($rutaArchivo);
+        $contenido = $pdf->getText();
+
+        if ($contenido === false) {
+            echo "No se pudo leer el contenido del archivo: $archivo\n";
+            continue;
+        }
+
+        // Procesar contenido
+        $contenido = limpiar($contenido);
+        echo "Contenido: $contenido\n";
+
+        // Preparar datos para indexación
+        $datos = [
+            'id' => uniqid(),
+            'title' => $archivo,
+            'content' => "Archivo subido por el usuario",
+            'url' => $rutaArchivo, // Usar la ruta local directamente
+            'keywords_s' => palabrasClave($contenido, 20),
+            'icon' => "./pdf.svg",
+            'language' => lenguaje($contenido),
+        ];
+
+        var_dump($datos);
+
+        echo "datos: $datos\n";
+
+        // Enviar datos al índice
+        $index = indexarPDF($datos);
+        echo $index . "\n";
+    }
 }
-
-}
-
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
@@ -97,20 +115,8 @@ function indexarPDF($datos)
             return 'Error al indexar datos en Solr: ' . $e->getMessage();
         }
     }
-
-
-
-function nombreArchivo(string $nombre){
-  $actual = 0;
-  $archivo = explode('.',$nombre);
-  $devolver = $archivo[0];
-
-  while(file_exists($GLOBALS['directorio'].$devolver.'.'.$archivo[1])){
-    $devolver=$archivo[0].$actual;
-    $actual ++;
-  };
-  return $devolver.'.'.$archivo[1];
-}
+    
+    
 
 use voku\helper\StopWords;
 use ICanBoogie\Inflector;
@@ -170,13 +176,13 @@ function limpiar($var) {
   return strtolower(preg_replace('/\s+/', ' ', preg_replace('/[^a-zA-ZáéíóúüÁÉÍÓÚÜñÑ\s]+/u', '', $var)));
 }
 
-echo 'hello';
-indexarArchivos($archivos, $directorio);
-echo 'hello';
-echo 'hello';
+$archivos = guardarArchivos($directorio);
+if (!empty($archivos)) {
+    indexarArchivos($archivos, $directorio);
+}
+
 $guardar = guardarArchivos($directorio);
 print_r($guardar);
-echo 'hello';
 
 
 echo "Archivos indexados";
