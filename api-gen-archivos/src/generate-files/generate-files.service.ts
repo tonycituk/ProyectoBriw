@@ -1,37 +1,53 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { SolrService } from '../solr/solr.service';
-import * as XLSX from 'xlsx';
 import * as PDFDocument from 'pdfkit';
 import { Response } from 'express';
+import * as ExcelJS from 'exceljs';
+
 
 @Injectable()
 export class GenerateFilesService {
   constructor(private readonly solrService: SolrService) {}
 
-  async createExcel() {
+  async createExcel(response: Response) {
     try {
       const solrData = await this.solrService.fetchData('*:*', 100);
-
-      // Transformar los datos para el Excel
-      const formattedData = solrData.map((item, index) => ({
-        Index: index + 1,
-        ID: item.id,
-        Title: item.title || 'Untitled',
-        Content: this.cleanContent(item.content || 'No Content'),
-      }));
-
-      // Crear hoja de cálculo
-      const worksheet = XLSX.utils.json_to_sheet(formattedData);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-
-      // Generar buffer del archivo Excel
-      const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
-      return buffer;
+  
+      // Crear un nuevo libro de Excel
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet('Solr Data');
+  
+      // Agregar encabezados
+      worksheet.columns = [
+        { header: 'Entry', key: 'entry', width: 10 },
+        { header: 'ID', key: 'id', width: 30 },
+        { header: 'Title', key: 'title', width: 30 },
+        { header: 'Content', key: 'content', width: 50 },
+      ];
+  
+      // Agregar datos
+      solrData.forEach((item, index) => {
+        worksheet.addRow({
+          entry: `Entry ${index + 1}`,
+          id: item.id,
+          title: item.title || 'Untitled',
+          content: this.cleanContent(item.content || 'No Content'),
+        });
+      });
+  
+      // Establecer encabezados de respuesta
+      response.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      response.setHeader('Content-Disposition', 'attachment; filename="solr-data-report.xlsx"');
+  
+      // Enviar archivo como respuesta
+      await workbook.xlsx.write(response);
+      response.end();
     } catch (error) {
-      throw new InternalServerErrorException('Error generating Excel file');
+      console.error(error);
+      throw new InternalServerErrorException('Error generating XLSX file');
     }
   }
+  
 
   async createPdf(response: Response) {
     try {

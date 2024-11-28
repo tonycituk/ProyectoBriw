@@ -7,8 +7,8 @@ export class GenerateFilesController {
   constructor(private readonly generateFilesService: GenerateFilesService) {}
 
   @Get('xlsx')
-  async generateExcel() {
-    await this.generateFilesService.createExcel();
+  async generateExcel(@Res() response: Response) {
+    await this.generateFilesService.createExcel(response);
   }
   
   @Get('pdf')

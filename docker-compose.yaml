@@ -37,6 +37,10 @@ services:
       context: ./api-gen-archivos
       dockerfile: Dockerfile
     container_name: api-gen-archivos
+    environment:
+      - SOLR_HOST=10.10.10.2
+      - SOLR_PORT=8983
+      - SOLR_CORE=ProyectoFinal
     ports:
       - "3000:3000"
     networks:
