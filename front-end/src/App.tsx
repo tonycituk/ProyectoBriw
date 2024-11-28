@@ -173,6 +173,27 @@ function App() {
     }, 3000);
   };
 
+  const handleGenerateFile = async (fileType: string) => {
+    const endpoint = `${import.meta.env.VITE_API_REPORTE_URL}/generate-files/${fileType}`;
+    try {
+      const response = await fetch(endpoint, {
+        method: "GET",
+      });
+      if (!response.ok) {
+        throw new Error("Error al generar el archivo");
+      }
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `archivo.${fileType}`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error(`Error al generar el archivo ${fileType}:`, error);
+    }
+  };
+
   return (
     <>
       <div className="flex justify-between navbar bg-neutral text-primary-conten sticky top-0 h-auto">
@@ -267,6 +288,20 @@ function App() {
         {loading && (
           <span className="loading loading-spinner loading-lg text-primary"></span>
         )}
+
+        <button
+          className="btn btn-primary"
+          onClick={() => handleGenerateFile("pdf")}
+        >
+          Generar PDF
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => handleGenerateFile("xlsx")}
+        >
+          Generar Excel
+        </button>
+
         <MenuFavoritos />
       </div>
       <div className="flex justify-center items-center h-screen">
