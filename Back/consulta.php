@@ -34,6 +34,9 @@ private static function expandSem($palabra) {
         }
     }
     $labels = (sizeof($labels)< 1)? [$palabra] : $labels;
+    if(!empty($palabra)){
+        $labels[] = $palabra;
+    }
     return array_unique($labels);
 }
 
@@ -70,11 +73,12 @@ public static function prepararConsulta(string $consulta): string{
     array_shift($terminos);
 
     foreach($terminos as $termino){
-        $termino = strtolower($termino);
-        $expansion = consulta::expandSem($termino);
+        $terminoLowerCase = strtolower($termino);
+        $expansion = consulta::expandSem($terminoLowerCase);
         $contact = consulta::arrToQuery($expansion);
         $retornar.= " OR ". $contact;
     }
+    $retornar .= " OR keywords_s:($consulta)";
     return $retornar;
 }
 }
