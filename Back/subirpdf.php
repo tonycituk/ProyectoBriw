@@ -170,7 +170,14 @@ function limpiar($var) {
   return strtolower(preg_replace('/\s+/', ' ', preg_replace('/[^a-zA-ZáéíóúüÁÉÍÓÚÜñÑ\s]+/u', '', $var)));
 }
 
-
+echo 'hello';
 indexarArchivos($archivos, $directorio);
+echo 'hello';
+echo 'hello';
+$guardar = guardarArchivos($directorio);
+print_r($guardar);
+echo 'hello';
+
+
 echo "Archivos indexados";
 ?>
