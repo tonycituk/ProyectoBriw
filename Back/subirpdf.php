@@ -9,7 +9,7 @@ include("config.php");
 
 header('Access-Control-Allow-Origin: *');
 
-$server = "$BASE_URL/";
+$server = "http://$BASE_URL/";
 $directorio = 'archivos/';
 $archivos = guardarArchivos($directorio);
 $solrUrl = "http://$SOLR_URL/solr/ProyectoFinal/update/?commit=true";
@@ -38,6 +38,7 @@ function guardarArchivos($directorio) {
 
 
 function indexarArchivos($archivos, $directorio) {
+    global $server;
     foreach ($archivos as $archivo) {
         echo "Archivo: $archivo\n";
         echo "Directorio: $directorio\n";
@@ -71,7 +72,7 @@ function indexarArchivos($archivos, $directorio) {
             'id' => uniqid(),
             'title' => $archivo,
             'content' => "Archivo subido por el usuario",
-            'url' => $rutaArchivo, // Usar la ruta local directamente
+            'url' => $server . $rutaArchivo, // Usar la ruta local directamente
             'keywords_s' => palabrasClave($contenido, 20),
             'icon' => "./pdf.svg",
             'language' => lenguaje($contenido),
