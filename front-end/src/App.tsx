@@ -28,10 +28,36 @@ function App() {
   const endpoint = "/ProyectoBRIW/Back/search.php";
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState<FileList | null>(null);
+  const [urlInput, setUrlInput] = useState(""); 
+  const [crawlResults, setCrawlResults] = useState(""); 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFileList(e.target.files);
+    }
+  };
+
+  const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUrlInput(e.target.value);
+  };
+  
+  const handleCrawlSubmit = async () => {
+    if (urlInput) {
+      setLoading(true);
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/crawler.php?url=${encodeURIComponent(urlInput)}`);
+        if (!response.ok) {
+          throw new Error("Failed to start crawl");
+        }
+        const data = await response.json();
+        setCrawlResults("Crawl completed successfully. Data is ready.");
+        setResultados(data);
+      } catch (error) {
+        console.error("Error during crawl:", error);
+        setCrawlResults("Error during crawl process.");
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -301,6 +327,34 @@ function App() {
         >
           Generar Excel
         </button>
+
+                {/* Add the input field for URL */}
+        <div className="flex flex-col items-center mt-5">
+          <input
+            type="text"
+            className="input input-bordered"
+            placeholder="Enter URL to crawl"
+            value={urlInput}
+            onChange={handleUrlChange}
+          />
+          <button
+            className="btn btn-primary mt-3"
+            onClick={handleCrawlSubmit}
+            disabled={loading}
+          >
+            Start Crawl
+          </button>
+        </div>
+
+        {/* Loading Spinner */}
+        {loading && <span className="loading loading-spinner loading-lg text-primary"></span>}
+
+        {/* Result message after crawling */}
+        {crawlResults && (
+          <div className="mt-5 text-center">
+            <p>{crawlResults}</p>
+          </div>
+        )}
 
         <MenuFavoritos />
       </div>
