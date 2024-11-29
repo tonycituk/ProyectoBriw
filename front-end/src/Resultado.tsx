@@ -46,7 +46,7 @@ function ResultadoBusqueda({ titulo, snippet, logo, url }) {
           {url}
         </a> <br/>
         <button className= {
-          (snippet == "Archivo subido por el usuario")? "hidden" : "btn"
+          (snippet == "Archivo subido por el usuario" || url == "")? "hidden" : "btn"
         } onClick={() => {
           setTituloModal(titulo);
           setLinkModal(`${import.meta.env.VITE_BASE_URL}/Screenshot.php?link=${url}`);
