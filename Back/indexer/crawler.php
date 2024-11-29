@@ -1,6 +1,7 @@
 <?php
 
 include "robotsParser.php";
+header("Access-Control-Allow-Origin: *");
 
 class Crawler{
     public string $baseUrl;

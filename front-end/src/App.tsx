@@ -45,11 +45,11 @@ function App() {
     if (urlInput) {
       setLoading(true);
       try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/crawler.php?url=${encodeURIComponent(urlInput)}`);
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/indexer/crawler.php?url=${urlInput}`);
         if (!response.ok) {
           throw new Error("Failed to start crawl");
         }
-        const data = await response.json();
+        const data = await response;
         setCrawlResults("Crawl completed successfully. Data is ready.");
         setResultados(data);
       } catch (error) {
