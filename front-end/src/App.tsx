@@ -40,7 +40,7 @@ function App() {
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUrlInput(e.target.value);
   };
-  
+
   const handleCrawlSubmit = async () => {
     if (urlInput) {
       setLoading(true);
@@ -329,7 +329,7 @@ function App() {
         </button>
 
                 {/* Add the input field for URL */}
-        <div className="flex flex-col items-center mt-5">
+        <div className="flex space-x-6">
           <input
             type="text"
             className="input input-bordered"
@@ -338,7 +338,7 @@ function App() {
             onChange={handleUrlChange}
           />
           <button
-            className="btn btn-primary mt-3"
+            className="btn btn-primary"
             onClick={handleCrawlSubmit}
             disabled={loading}
           >
