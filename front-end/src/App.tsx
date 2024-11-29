@@ -313,25 +313,29 @@ function App() {
         <div className="flex flex-col items-center h-screen w-full m-12">
           <Buscador onEnter={handleOnEnter1 /*Barra de busqueda*/} />
           <div className="justify-content w-full">
-            {resultados.map((resultado) => (
-              /*Cuando setResultadosSeUsa, todo esto cambia*/
+            {resultados.length > 0 ? (
+              resultados.map((resultado) => (
+                /*Cuando setResultadosSeUsa, todo esto cambia*/
+                <Resultado
+                  key={resultado.id}
+                  titulo={resultado.titulo}
+                  snippet={resultado.snippet}
+                  //No se preocupen, la ip de chuck norris no tiene imagenes
+                  logo={resultado.logo}
+                  url={resultado.url}
+                />
+              ))
+            ) : (
               <Resultado
-                key={resultado.id}
-                titulo={resultado.titulo}
-                snippet={resultado.snippet}
-                //No se preocupen, la ip de chuck norris no tiene imagenes
-                logo={resultado.logo}
-                url={resultado.url}
+                titulo={"Bienvenido a sistema Briw"}
+                snippet={"Inicia usando el buscador o sube tu propio PDF."}
+                logo={"./pat.svg"}
+                url={""}
               />
-            ))}
-            <Resultado
-              titulo={"Tremendo Proyecto"}
-              snippet={"Debe ser un link a un lugar maravilloso"}
-              logo={"./pat.svg"}
-              url={"https://www.google.com/"}
-            />
+            )}
           </div>
         </div>
+
       </div>
     </>
   );
