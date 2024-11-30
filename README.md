@@ -1,29 +1,108 @@
-# ProyectoBRIW
 
+# Proyecto Briw
 
-Para poder ejecutar el frontEnd necesitas  instalar
+Guía para levantar los servicios `solr`, `front`, `php-webserver`, y `api-gen-archivos` utilizando Docker Compose.
 
-- [**xammp**](https://www.apachefriends.org/es/index.html)
-- [**node.js**](https://nodejs.org/en)
-- [**nvm**](https://github.com/coreybutler/nvm-windows/releases/download/1.1.12/nvm-setup.exe)
-- [**TailSense**](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
-- [**Solr**](https://www.apache.org/dyn/closer.lua/solr/solr/9.6.1/solr-9.6.1-src.tgz?action=download) //Preguntarme de como iniciarlo
-- [**wkhtmltoimg**](https://wkhtmltopdf.org/downloads.html)
+---
 
-La carpeta del respositiorio debe de estar en C:/../xammp/htdocs/BRIW
+## **Requisitos Previos**
+- Docker y Docker Compose instalados.
+- Espacio suficiente en disco.
+- Archivos de configuración y Dockerfiles en las rutas correctas.
 
-Para ejecuar el frontEnd (Una vez instalado lo anterior)
+---
 
-~~~
-nvm install 21.7.3
-cd Front/frontBRIW
-npm install
-npm run dev
-~~~
+## **Estructura del Proyecto**
+```
+.
+├── docker-compose.yml
+├── solr/
+│   └── Dockerfile
+├── front-end/
+│   └── Dockerfile
+├── Back/
+│   └── Dockerfile
+└── api-gen-archivos/
+    └── Dockerfile
+```
 
-Es necesario poner el archivo bin del programa wkhtmltopdf en las variables de entorno del sistema para que el BRIW pueda renderizar las imagenes.
+---
 
-También es necesario ejecutar XAAMP como un administrastrador para que el BRIW pueda funcionar como debe.
+## **Configuración de la Red**
+Red personalizada `app_network` con la subred `10.10.10.0/24` y direcciones IP fijas para cada servicio.
 
+---
 
+## **Servicios**
+1. **Solr**
+   - **Puerto:** `8983`
+   - **Dirección IP:** `10.10.10.2`
+   - **Acceso:** [http://10.10.10.2:8983](http://10.10.10.2:8983)
 
+2. **Front**
+   - **Puerto:** `80`
+   - **Dirección IP:** `10.10.10.3`
+   - **Acceso al frontend:** [http://10.10.10.3](http://10.10.10.3)
+
+3. **PHP-Webserver**
+   - **Puerto:** `8080`
+   - **Dirección IP:** `10.10.10.4`
+   - **Acceso:** [http://10.10.10.4:8080](http://10.10.10.4:8080)
+
+4. **API-Gen-Archivos**
+   - **Puerto:** `3000`
+   - **Dirección IP:** `10.10.10.5`
+   - Variables de entorno:
+     - `SOLR_HOST=10.10.10.2`
+     - `SOLR_PORT=8983`
+     - `SOLR_CORE=ProyectoFinal`
+   - **Acceso:** [http://10.10.10.5:3000](http://10.10.10.5:3000)
+
+---
+
+## **Instrucciones**
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone <url-del-repositorio>
+   cd <directorio-del-repositorio>
+   ```
+
+2. **Levantar los servicios:**
+   ```bash
+   docker-compose up --build
+   ```
+
+3. **Verificar los servicios:**
+   ```bash
+   docker ps
+   ```
+
+4. **Acceso a los servicios:**
+   - **Solr:** [http://10.10.10.2:8983](http://10.10.10.2:8983)
+   - **Front:** [http://10.10.10.3](http://10.10.10.3)
+   - **PHP-Webserver:** [http://10.10.10.4:8080](http://10.10.10.4:8080)
+   - **API:** [http://10.10.10.5:3000](http://10.10.10.5:3000)
+
+---
+
+## **Notas**
+- Verifica que los puertos estén disponibles.
+- Para detener los servicios:
+  ```bash
+  docker-compose down
+  ```
+
+---
+
+## **Solución de Problemas**
+1. **Error de conexión entre contenedores:**
+   ```bash
+   docker network inspect app_network
+   ```
+
+2. **Puertos en uso:**
+   - Modifica los puertos en el archivo `docker-compose.yml`.
+
+3. **Errores al construir imágenes:**
+   - Confirma que los Dockerfiles están en las rutas correctas.
