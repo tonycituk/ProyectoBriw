@@ -1,6 +1,5 @@
 <?php
-include "../config.php";
-require '../vendor/autoload.php';
+require '../../vendor/autoload.php';
 use ICanBoogie\Inflector;
 use voku\helper\StopWords;
 class utils{
@@ -182,7 +181,7 @@ class utils{
 
     public static function indexContentToSolr(string $path)
     {
-        $url = "http://10.10.10.2:8983/solr/ProyectoFinal/update/?commit=true";
+        $url = 'http://localhost:8983/solr/ProyectoFinal/update/?commit=true';
         
         // Leer el contenido del archivo
         $lines = fopen($path, "r");
@@ -223,6 +222,12 @@ class utils{
         fclose($index);
 
     }
+
+    public static function getLastModified(string $url): ?string {
+        $headers = get_headers($url, 1);
+        return $headers['Last-Modified'] ?? null;
+    }
+    
 }
 
 

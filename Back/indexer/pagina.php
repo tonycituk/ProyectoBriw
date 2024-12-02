@@ -20,6 +20,8 @@ class Pagina{
             ];
         }
         $contenido = $this->getBody($content);
+        $lastModified = utils::getLastModified($url) ?? date("Y-m-d H:i:s"); // Fecha actual como fallback
+        $contentSize = strlen($content) ?: 0;
         $this->data = [
             'id' => uniqid(), // Generar un ID único para el documento
             'title' => $this->meta["title"],
@@ -27,6 +29,9 @@ class Pagina{
             'content' => isset($this->meta["metaTags"]["description"]) ?$this->meta["metaTags"]["description"]["value"]: substr($contenido,0,100),
             'url' => $url,
             'keywords_s'=> utils::palabrasClave($contenido, 20, $this->meta),
+            'date' => $lastModified,
+            'size' => $contentSize,
+
             //'icon' => "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=$url&size=128"
             'icon'=> utils::getFavicon($this->url, $content)
         ];
