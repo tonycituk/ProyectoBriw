@@ -5,6 +5,7 @@ import Buscador from "./Buscador";
 import Resultado from "./Resultado";
 import Facetas from "./Facetas";
 import MenuFavoritos from "./MenuFavoritos";
+import DropdownFacets from "./DropdownFacets";
 
 interface Resultado {
   titulo: string;
@@ -24,12 +25,19 @@ function App() {
   const [resultados, setResultados] = useState(initRes);
   const [facetas, setFacetas] = useState([""]);
   const [lastQuery, setLastQuery] = useState("");
-  //const baseUrl = window.location.origin;
-  const endpoint = "/ProyectoBRIW/Back/search.php";
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState<FileList | null>(null);
-  const [urlInput, setUrlInput] = useState(""); 
-  const [crawlResults, setCrawlResults] = useState(""); 
+  const [dateFacets, setDateFacets] = useState<
+    Array<{ val: string; count: number }>
+  >([]);
+  const [sizeFacets, setSizeFacets] = useState<
+    Array<{ val: string; count: number }>
+  >([]);
+  const [siteFacets, setSiteFacets] = useState<
+    Array<{ val: string; count: number }>
+  >([]);
+  const [urlInput, setUrlInput] = useState("");
+  const [crawlResults, setCrawlResults] = useState("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -45,7 +53,9 @@ function App() {
     if (urlInput) {
       setLoading(true);
       try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/indexer/crawler.php?url=${urlInput}`);
+        const response = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/indexer/crawler.php?url=${urlInput}`
+        );
         if (!response.ok) {
           throw new Error("Failed to start crawl");
         }
@@ -101,6 +111,9 @@ function App() {
         .then((data) => {
           const actual: Resultado[] = [];
           const actualFacet: string[] = [];
+          const actualDateFacets: Array<{ val: string; count: number }> = [];
+          const actualSizeFacets: Array<{ val: string; count: number }> = [];
+          const actualSiteFacets: Array<{ val: string; count: number }> = [];
           console.log(data);
           for (const resultado of data.results) {
             actual.push({
@@ -128,11 +141,73 @@ function App() {
             }
           }
           setFacetas(actualFacet);
+          if (data.facets) {
+            if (data.facets.date_facet) {
+              setDateFacets(agruparFechas(data.facets.date_facet.buckets));
+            }
+            if (data.facets.size) {
+              setSizeFacets(agruparTamanos(data.facets.size.buckets));
+            }
+            if (data.facets.url_facet) {
+              setSiteFacets(data.facets.url_facet.buckets);
+            }
+          }
           setLastQuery(busqueda);
         })
         .finally(() => {
           setLoading(false); // Ocultar spinner de carga
         });
+    }
+    function agruparTamanos(sizeFacets: Array<{ val: string; count: number }>) {
+      let rangosAgrupados: Array<{ val: string; count: number }> = [];
+      let rangoInicio = 0;
+      let rangoFin = 10000;
+      let contador = 0;
+      let index = 0;
+      sizeFacets.forEach((facet) => {
+        const valor = parseInt(facet.val, 10);
+        if (valor > rangoInicio && valor < rangoFin) {
+          //contador += facet.count;
+          contador += facet.count;
+        } else {
+          rangosAgrupados.push({
+            val: `${rangoInicio}-${rangoFin}`,
+            count: sizeFacets.at(index++).count,
+            //count: contador,
+          });
+          rangoInicio = rangoFin + 1;
+          rangoFin += 10000;
+          contador = facet.count; // Comenzar el conteo para el nuevo rango
+        }
+      });
+      if (contador > 0) {
+        rangosAgrupados.push({
+          val: `${rangoInicio}-${rangoFin}`,
+          count: contador,
+        });
+      }
+
+      return rangosAgrupados;
+    }
+    function agruparFechas(sizeFacets: Array<{ val: string; count: number }>) {
+      let rangosAgrupados: Array<{ val: string; count: number }> = [];
+
+      for (let i = 0; i < sizeFacets.length; i++) {
+        const fecha1 = sizeFacets[i];
+        //const fecha2 = sizeFacets[i + 1];
+        const fecha2 = new Date(fecha1.val);
+        fecha2.setHours(fecha2.getHours() + 6);
+        //const rangoVal = `${fecha1.val}|${fecha2.val}`;
+        const rangoVal = `${fecha1.val}|${fecha2.toISOString()}`;
+        //const sumaCount = fecha1.count + fecha2.count;
+        const sumaCount = fecha1.count;
+        rangosAgrupados.push({
+          val: rangoVal,
+          count: sumaCount,
+        });
+      }
+
+      return rangosAgrupados;
     }
   };
 
@@ -160,47 +235,32 @@ function App() {
         setLoading(false); // Ocultar spinner de carga
       });
   };
-
-  const files = fileList ? [...fileList] : [];
-
-  const handleUpload = async () => {
-    document.getElementById("loadingModal").showModal();
-    document.getElementById("loadingSpin").style.display = "block";
-    document.getElementById("loadingCompl").style.display = "none";
-    document.getElementById("loadingWarn").style.display = "none";
-    if (fileList) {
-      console.log("Uploading file...");
-      const formData = new FormData();
-      files.forEach((file, i) => {
-        formData.append(`archivos[]`, file);
+  const handleSelectFacet = (facetType: string, facetValue: string) => {
+    setLoading(true);
+    fetchDataFromPHPWithNewFacet(lastQuery, facetType, facetValue)
+      .then((data) => {
+        const actual: Resultado[] = [];
+        console.log(data);
+        for (const resultado of data.results) {
+          actual.push({
+            logo: resultado.icon_url,
+            titulo: resultado.value,
+            snippet: resultado.id,
+            url: resultado.url,
+            id: resultado.index,
+          });
+        }
+        setResultados(actual);
+      })
+      .finally(() => {
+        setLoading(false); // Ocultar spinner de carga
       });
-      console.log(Array.from(formData.keys()).length);
-      try {
-        // You can write the URL of your server or any other endpoint used for file upload
-        const result = await fetch(`${import.meta.env.VITE_BASE_URL}/subirpdf.php`, {
-          method: "POST",
-          body: formData,
-        }).then((response) => {
-          if (response.status === 200) {
-            console.log("Exito");
-            document.getElementById("loadingSpin").style.display = "none";
-            document.getElementById("loadingCompl").style.display = "block";
-          } else {
-            document.getElementById("loadingSpin").style.display = "none";
-            document.getElementById("loadingWarn").style.display = "block";
-          }
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    setTimeout(() => {
-      document.getElementById("exitBtn").click();
-    }, 3000);
   };
 
   const handleGenerateFile = async (fileType: string) => {
-    const endpoint = `${import.meta.env.VITE_API_REPORTE_URL}/generate-files/${fileType}`;
+    const endpoint = `${
+      import.meta.env.VITE_API_REPORTE_URL
+    }/generate-files/${fileType}`;
     try {
       const response = await fetch(endpoint, {
         method: "GET",
@@ -218,6 +278,47 @@ function App() {
     } catch (error) {
       console.error(`Error al generar el archivo ${fileType}:`, error);
     }
+  };
+
+  const files = fileList ? [...fileList] : [];
+
+  const handleUpload = async () => {
+    document.getElementById("loadingModal").showModal();
+    document.getElementById("loadingSpin").style.display = "block";
+    document.getElementById("loadingCompl").style.display = "none";
+    document.getElementById("loadingWarn").style.display = "none";
+    if (fileList) {
+      console.log("Uploading file...");
+      const formData = new FormData();
+      files.forEach((file, i) => {
+        formData.append(`archivos[]`, file);
+      });
+      console.log(Array.from(formData.keys()).length);
+      try {
+        // You can write the URL of your server or any other endpoint used for file upload
+        const result = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/subirpdf.php`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        ).then((response) => {
+          if (response.status === 200) {
+            console.log("Exito");
+            document.getElementById("loadingSpin").style.display = "none";
+            document.getElementById("loadingCompl").style.display = "block";
+          } else {
+            document.getElementById("loadingSpin").style.display = "none";
+            document.getElementById("loadingWarn").style.display = "block";
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    setTimeout(() => {
+      document.getElementById("exitBtn").click();
+    }, 3000);
   };
 
   return (
@@ -261,6 +362,44 @@ function App() {
             </div>
           </div>
         </dialog>
+
+        <button
+          className="btn btn-primary"
+          onClick={() => handleGenerateFile("pdf")}
+        >
+          Generar PDF
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => handleGenerateFile("xlsx")}
+        >
+          Generar Excel
+        </button>
+
+        {/* Add the input field for URL */}
+        <div className="flex space-x-6">
+          <input
+            type="text"
+            className="input input-bordered"
+            placeholder="Enter URL to crawl"
+            value={urlInput}
+            onChange={handleUrlChange}
+          />
+          <button
+            className="btn btn-primary"
+            onClick={handleCrawlSubmit}
+            disabled={loading}
+          >
+            Start Crawl
+          </button>
+        </div>
+
+        {/* Result message after crawling */}
+        {crawlResults && (
+          <div className="mt-5 text-center">
+            <p>{crawlResults}</p>
+          </div>
+        )}
 
         {/*Loading*/}
 
@@ -314,88 +453,76 @@ function App() {
         {loading && (
           <span className="loading loading-spinner loading-lg text-primary"></span>
         )}
-
-        <button
-          className="btn btn-primary"
-          onClick={() => handleGenerateFile("pdf")}
-        >
-          Generar PDF
-        </button>
-        <button
-          className="btn btn-secondary"
-          onClick={() => handleGenerateFile("xlsx")}
-        >
-          Generar Excel
-        </button>
-
-                {/* Add the input field for URL */}
-        <div className="flex space-x-6">
-          <input
-            type="text"
-            className="input input-bordered"
-            placeholder="Enter URL to crawl"
-            value={urlInput}
-            onChange={handleUrlChange}
-          />
-          <button
-            className="btn btn-primary"
-            onClick={handleCrawlSubmit}
-            disabled={loading}
-          >
-            Start Crawl
-          </button>
-        </div>
-
-        {/* Loading Spinner */}
-        {loading && <span className="loading loading-spinner loading-lg text-primary"></span>}
-
-        {/* Result message after crawling */}
-        {crawlResults && (
-          <div className="mt-5 text-center">
-            <p>{crawlResults}</p>
-          </div>
-        )}
-
         <MenuFavoritos />
       </div>
       <div className="flex justify-center items-center h-screen">
-        {facetas.length > 0 && (
-          //Elemento Facetas
-          <Facetas facetas={facetas} onSelectFaceta={handlerFaceta}></Facetas>
-        )}
-
-        <div className="flex flex-col items-center h-screen w-full m-12">
-          <Buscador onEnter={handleOnEnter1 /*Barra de busqueda*/} />
-          <div className="justify-content w-full">
-            {resultados.length > 0 ? (
-              resultados.map((resultado) => (
-                /*Cuando setResultadosSeUsa, todo esto cambia*/
-                <Resultado
-                  key={resultado.id}
-                  titulo={resultado.titulo}
-                  snippet={resultado.snippet}
-                  //No se preocupen, la ip de chuck norris no tiene imagenes
-                  logo={resultado.logo}
-                  url={resultado.url}
-                />
-              ))
-            ) : (
-              <Resultado
-                titulo={"Bienvenido a sistema Briw"}
-                snippet={"Inicia usando el buscador o sube tu propio PDF."}
-                logo={"./pat.svg"}
-                url={""}
+        <div className="flex flex-col justify-center items-center h-screen">
+          {dateFacets.length > 0 ||
+          sizeFacets.length > 0 ||
+          siteFacets.length > 0 ? (
+            <div className="w-full px-12 py-6">
+              <DropdownFacets
+                dateFacets={dateFacets}
+                sizeFacets={sizeFacets}
+                siteFacets={siteFacets}
+                onSelectFacet={handleSelectFacet}
               />
+            </div>
+          ) : (
+            <span>No hay facetas disponibles</span>
+          )}
+          <div className="w-full px-12 py-6">
+            {facetas.length > 0 && (
+              // Elemento Facetas
+              <Facetas
+                facetas={facetas}
+                onSelectFaceta={handlerFaceta}
+              ></Facetas>
             )}
           </div>
         </div>
 
+        <div className="flex flex-col items-center h-screen w-full m-12">
+          <Buscador onEnter={handleOnEnter1 /*Barra de busqueda*/} />
+          <div className="justify-content w-full">
+            {resultados.map((resultado) => (
+              /*Cuando setResultadosSeUsa, todo esto cambia*/
+              <Resultado
+                key={resultado.id}
+                titulo={resultado.titulo}
+                snippet={resultado.snippet}
+                //No se preocupen, la ip de chuck norris no tiene imagenes
+                logo={resultado.logo}
+                url={resultado.url}
+              />
+            ))}
+            <Resultado
+              titulo={"Tremendo Proyecto"}
+              snippet={"Debe ser un link a un lugar maravilloso"}
+              logo={"./pat.svg"}
+              url={"https://www.google.com/"}
+            />
+          </div>
+        </div>
       </div>
     </>
   );
 }
 
 async function obtenerResultados(busqueda: string) {
+  //const response = await fetch(`https://api.chucknorris.io/jokes/search?query=${busqueda}`);
+  const response = await fetch(
+    `${import.meta.env.VITE_BASE_URL}/search.php?q=${busqueda}` +
+      "&facet=true&facet.field=url&facet.range=size&facet.range=date&facet.range.start=0&facet.range.end=50000000&facet.range.gap=10000000&facet.range.start=NOW-1YEAR&facet.range.end=NOW&facet.range.gap=+1MONTH"
+  );
+  if (!response.ok) {
+    throw new Error("Error fetching");
+  }
+  const data = await response.json();
+  return data;
+}
+
+async function fetchDataFromPHP(busqueda: string) {
   const response = await fetch(
     `${import.meta.env.VITE_BASE_URL}/search.php?q=${busqueda}`
   );
@@ -406,8 +533,11 @@ async function obtenerResultados(busqueda: string) {
   return data;
 }
 
-async function fetchDataFromPHP(busqueda: string) {
-  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/search.php?q=${busqueda}`);
+async function fetchDataFromPHPWithFaceta(lastQuery: string, faceta: string) {
+  //const response = await fetch(`https://api.chucknorris.io/jokes/search?query=${busqueda}`);
+  const response = await fetch(
+    `${import.meta.env.VITE_BASE_URL}/search.php?q=${lastQuery}&f=${faceta}`
+  );
   if (!response.ok) {
     throw new Error("Error fetching");
   }
@@ -415,8 +545,17 @@ async function fetchDataFromPHP(busqueda: string) {
   return data;
 }
 
-async function fetchDataFromPHPWithFaceta(lastQuery: string, faceta: string) {
-  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/search.php?q=${lastQuery}&f=${faceta}`);
+async function fetchDataFromPHPWithNewFacet(
+  lastQuery: string,
+  facetType: string,
+  facetValue: string
+) {
+  //const response = await fetch(`https://api.chucknorris.io/jokes/search?query=${busqueda}`);
+  const response = await fetch(
+    `${
+      import.meta.env.VITE_BASE_URL
+    }/search.php?q=${lastQuery}&facetType=${facetType}&facetValue=${facetValue}`
+  );
   if (!response.ok) {
     throw new Error("Error fetching");
   }
