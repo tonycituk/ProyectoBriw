@@ -1,5 +1,6 @@
 <?php
 include "consulta.php";
+include "config.php";
 //"facet.field" => 'title',
 //"facet.contains" => $_GET['q'],
  header("Access-Control-Allow-Origin: *");
@@ -13,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $facetValue = $_GET['facetValue'] ?? '';
     $f = $_GET['f'] ?? '';
     if (!empty($query)) {
-        $baseurl = "http://localhost:8983/solr/ProyectoFinal/select";
+        $baseurl = "http://$SOLR_URL/solr/ProyectoFinal/select";
         $rows = 100;
         $start = $_GET['start'] ?? 0;
         if (!empty($faceta)) {
