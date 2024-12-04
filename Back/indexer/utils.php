@@ -182,7 +182,7 @@ class utils{
 
     public static function indexContentToSolr(string $path)
     {
-        $url = "http://$SOLR_URL/solr/ProyectoFinal/update/?commit=true";
+        $url = "http://10.10.10.2:8983/solr/ProyectoFinal/update/?commit=true";
         
         // Leer el contenido del archivo
         $lines = fopen($path, "r");

@@ -1,9 +1,9 @@
 <?php
-include("../Back/http.php");
-include("../Back/parse.php");
-include("../Back/addresses.php");
-include("../Back/httpCodes.php");
-require '../vendor/autoload.php';
+include_once "http.php";
+include "parse.php";
+include_once "addresses.php";
+include "httpCodes.php";
+require 'vendor/autoload.php';
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
@@ -44,7 +44,7 @@ class WebCrawler
 
     private function indexContentToSolr($content, $url)
     {
-        $solrUrl = 'http://localhost:8983/solr/ProyectoFinal/update/?commit=true';
+        $solrUrl = 'http://10.10.10.2:8983/solr/ProyectoFinal/update/?commit=true';
         //Obtener los datos en el <head> de la pagina
         $meta = getUrlData($url);
         
@@ -295,8 +295,7 @@ function lenguaje($contenido){
 
 
 $startUrls = [
-    'https://es.wikipedia.org/',
-    'https://solr.apache.org/'
+    'https://stackoverflow.com'
 ];
 
 $maxDepth = 2;

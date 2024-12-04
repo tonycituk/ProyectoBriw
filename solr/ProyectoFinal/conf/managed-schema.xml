@@ -433,6 +433,9 @@
   <field name="link" type="text_general"/>
   <field name="pesoFalso" type="pfloats" uninvertible="true" default="1" indexed="true" stored="true"/>
   <field name="revised" type="pdates"/>
+  <field name="date" type="pdate" indexed="true" stored="true"/>
+  <field name="size_bytes" type="plong" indexed="true" stored="true"/>
+  <field name="size_mb" type="pfloat" indexed="true" stored="true"/>
   <field name="snippet" type="text_general"/>
   <field name="stream_content_type" type="text_general"/>
   <field name="stream_size" type="text_general"/>
