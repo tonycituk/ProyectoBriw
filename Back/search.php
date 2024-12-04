@@ -1,20 +1,23 @@
 <?php
 include "consulta.php";
-include "config.php";
 //"facet.field" => 'title',
 //"facet.contains" => $_GET['q'],
  header("Access-Control-Allow-Origin: *");
  header('Content-Type: application/json; charset=utf-8');
-
+$boolean_query = false;
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $query = $_GET['q'] ?? '';
-    $query = consulta::prepararConsulta($query);
+    //$query = consulta::prepararConsulta($query);
+    if (!preg_match('/\b(?:AND|OR|NOT)\b/i', $query)) {
+        $query = consulta::prepararConsulta($query);
+        $boolean_query = true;
+    }
     $faceta = $_GET['f'] ?? '';
     $facetType = $_GET['facetType'] ?? '';
     $facetValue = $_GET['facetValue'] ?? '';
     $f = $_GET['f'] ?? '';
     if (!empty($query)) {
-        $baseurl = "http://$SOLR_URL/solr/ProyectoFinal/select";
+        $baseurl = "http://localhost:8983/solr/ProyectoFinal/select";
         $rows = 100;
         $start = $_GET['start'] ?? 0;
         if (!empty($faceta)) {
@@ -42,6 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 
             }
         }
+        
+        //$fq = $boolean_query ? '*:*' : "title:*$f*";
+        //$fq = $boolean_query ? '*:*' : (!empty($f) ? "(title:*$f* OR content:*$f* OR keywords_s:*$f*)" : '*:*');
+        $fq = $boolean_query ? '*:*' : (!empty($f) ? "title:*$f*" : '*:*');
+
         $mensaje = [
             /*
             "defType" => "lucene",
@@ -64,7 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             "facet.field" => 'title',
             "facet.contains" => $f,
             "facet.contains.ignoreCase" => 'true',
-            "fq" => "title:*$f*",
+            //"fq" => "title:*$f*",
+            "fq" => $fq,
+
             "facet.sort" => 'count',
             "facet" => 'true',
             "indent" => 'true',
@@ -161,6 +171,7 @@ function apiMensaje($url, $parametros)
 {
     $url = $url . "?" . http_build_query($parametros);
     $ch = curl_init($url);
+    //var_dump($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $output = curl_exec($ch);
     curl_close($ch);
