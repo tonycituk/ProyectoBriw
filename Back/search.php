@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $facetValue = $_GET['facetValue'] ?? '';
     $f = $_GET['f'] ?? '';
     if (!empty($query)) {
-        $baseurl = "http://localhost:8983/solr/ProyectoFinal/select";
+        $baseurl = "http://10.10.10.2:8983/solr/ProyectoFinal/select";
         $rows = 100;
         $start = $_GET['start'] ?? 0;
         if (!empty($faceta)) {

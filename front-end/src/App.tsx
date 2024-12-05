@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Buscador from "./Buscador";
 import Resultado from "./Resultado";
 import Facetas from "./Facetas";
-import MenuFavoritos from "./MenuFavoritos";
 import DropdownFacets from "./DropdownFacets";
 
 interface Resultado {
@@ -323,7 +322,7 @@ function App() {
 
   return (
     <>
-      <div className="flex justify-between navbar bg-neutral text-primary-conten sticky top-0 h-auto">
+      <div className="flex justify-between navbar bg-cyan-950 text-primary-conten sticky top-0 h-auto">
         <button className="btn btn-ghost text-xl">BRIW</button>
         {/* Modal para subir PDFs */}
         <button
@@ -453,7 +452,6 @@ function App() {
         {loading && (
           <span className="loading loading-spinner loading-lg text-primary"></span>
         )}
-        <MenuFavoritos />
       </div>
       <div className="flex justify-center items-center h-screen">
         <div className="flex flex-col justify-center items-center h-screen">
@@ -496,12 +494,6 @@ function App() {
                 url={resultado.url}
               />
             ))}
-            <Resultado
-              titulo={"Tremendo Proyecto"}
-              snippet={"Debe ser un link a un lugar maravilloso"}
-              logo={"./pat.svg"}
-              url={"https://www.google.com/"}
-            />
           </div>
         </div>
       </div>

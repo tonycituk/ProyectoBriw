@@ -10,7 +10,7 @@ function Sugerencias({sugerencias, itemSeleccionado,onSelectSugerencia} : Propie
      return (<div className=" hidden border-none"></div>)
     }
     return (
-        <ul className="absolute z-10000 left-0 mt-2 w-full border border-primary rounded-md shadow-lg bg-neutral">
+        <ul className="absolute z-10000 left-0 mt-2 w-full rounded-md shadow-lg bg-neutral">
           {sugerencias.map((sugerencia, index) => (
 
             <li
