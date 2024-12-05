@@ -22,7 +22,7 @@ class WebCrawler
     private $visitedUrls;
     private $urlsToCrawl;
 
-    public function __construct($startUrl, $maxDepth = 5)
+    public function __construct($startUrl, $maxDepth = 3)
     {
         $this->client = new Client();
         $this->baseDomain = parse_url($startUrl, PHP_URL_HOST);
@@ -55,8 +55,16 @@ class WebCrawler
         $contenido = contenido($content); 
 
         // Obtener la fecha de última modificación (o fecha actual como fallback)
-        $lastModified = getLastModified($url) ?? date("Y-m-d\TH:i:s\Z");
+        $lastModified = getLastModified($url);
 
+        // Si la función devuelve una fecha, convertirla a ISO 8601
+        if ($lastModified) {
+            $lastModified = (new DateTime($lastModified))->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
+        } else {
+            // Usar la fecha actual si no hay un valor válido
+            $lastModified = date("Y-m-d\TH:i:s\Z");
+        }
+        
         // Calcular el tamaño del contenido (en bytes y MB)
         $contentSizeBytes = strlen($content) ?: 0;
         $contentSizeMB = round($contentSizeBytes / 1048576, 2); // Convertir a MB con 2 decimales
@@ -293,16 +301,19 @@ function lenguaje($contenido){
 // Uso del WebCrawler
 // URLs de inicio
 
+header("Access-Control-Allow-Origin: *");
 
-$startUrls = [
-    'https://stackoverflow.com'
-];
+if (isset($_GET['startUrl']) && filter_var($_GET['startUrl'], FILTER_VALIDATE_URL)) {
+    $startUrl = $_GET['startUrl'];
+    $maxDepth = isset($_GET['maxDepth']) && is_numeric($_GET['maxDepth']) ? (int)$_GET['maxDepth'] : 3; // Máxima profundidad opcional con un valor predeterminado
 
-$maxDepth = 2;
-foreach ($startUrls as $startUrl) {
+    // Iniciar el crawler con la URL proporcionada
     $crawler = new WebCrawler($startUrl, $maxDepth);
     $crawler->startCrawling();
+} else {
+    echo "Por favor, proporciona una URL válida en el parámetro 'startUrl'.";
 }
+
 
 function getUrlData($url) {
     $result = false;

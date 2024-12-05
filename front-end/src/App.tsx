@@ -54,7 +54,7 @@ function App() {
       setLoading(true);
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/indexer/crawler.php?url=${urlInput}`
+          `${import.meta.env.VITE_BASE_URL}/crawler.php?startUrl=${urlInput}`
         );
         if (!response.ok) {
           throw new Error("Failed to start crawl");
